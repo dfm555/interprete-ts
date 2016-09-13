@@ -1,3 +1,3 @@
 1. Clonar el repo
-npm install
-npm start
+2. npm install
+3. npm start
