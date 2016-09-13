@@ -13,7 +13,7 @@ class Token {
     public static  POTENCIA:number = 5;
     public static  MODULO:number = 6;
     public static  DIVISION_ENTERA:number = 7;
-
+ 
     public static  ABRIR_PARENTESIS:number = 8;
     public static  CERRAR_PARENTESIS:number = 9;
     public static  PI:number = 10;
@@ -30,6 +30,11 @@ class Token {
     public static  O_LOGICO:number = 18;
     public static  NO_LOGICO:number = 19;
 
+    public static  ABRIR_CORCHETES:number = 20;
+    public static  CERRAR_CORCHETES:number = 21;
+    public static  COMA:number = 22;
+    public static  PUNTO_COMA:number = 23;
+    public static  COMILLA:number = 24;
     //
     public static  VALOR_ENTERO:number = 100;
     public static  VALOR_REAL:number = 101;
