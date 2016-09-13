@@ -117,7 +117,6 @@ class Lexer {
     public advance():void {
         this.nuevoToken = this.getToken();
     }
-
     public match(token:number):boolean {
         if (this.nuevoToken == 0) {
             this.nuevoToken = this.getToken();
@@ -131,7 +130,7 @@ class Lexer {
         return Number(this.expresion.substring(this.posicion, this.posicion
             + this.longitud));
     }
-
+    
     public obtenerReal():number {
         return Number(this.expresion.substring(this.posicion, this.posicion
             + this.longitud));
