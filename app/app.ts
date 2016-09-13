@@ -3,7 +3,7 @@
  */
 import {Lexer} from './interprete/Lexer'
 import {Token} from './interprete/Token'
-
+/* class app */
 class App{
 
     private static init():void{
@@ -52,9 +52,6 @@ class App{
     public static main():void {
         document.getElementById('generate').addEventListener('click', this.init)
     }
-
-
-
 
 }
 
