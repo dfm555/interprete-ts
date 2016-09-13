@@ -3,7 +3,7 @@
  */
 import {Lexer} from './interprete/Lexer'
 import {Token} from './interprete/Token'
-
+/* class app */
 class App{
     public static main():void {
         let programa: string = "2+ 233 +  4.5";
