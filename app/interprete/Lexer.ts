@@ -136,6 +136,11 @@ class Lexer {
             + this.longitud));
     }
 
+    public obtenerSymbolo():string{
+        return this.expresion.substring(this.posicion, this.posicion
+          + this.longitud);
+    }
+
     private isDigit(char:string):boolean {
         return 48<=char.charCodeAt(0) && char.charCodeAt(0)<=57;
     }
