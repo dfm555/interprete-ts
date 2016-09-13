@@ -35,6 +35,15 @@ class Token {
     public static  COMA:number = 22;
     public static  PUNTO_COMA:number = 23;
     public static  COMILLA:number = 24;
+    public static  ASIGNACION = 25;
+    public static  IDENTIFICADOR = 26;
+
+    //Palabras reservadas
+    public static  VAR = 25;
+    public static  IF = 25;
+    public static  WHILE = 25;
+    public static  FOR = 25;
+    public static  CONST = 25;
     //
     public static  VALOR_ENTERO:number = 100;
     public static  VALOR_REAL:number = 101;
