@@ -36,14 +36,57 @@ class Lexer {
             let caracter:string = this.expresion.charAt(this.posicion);
 
             switch (caracter) {
+                //Operadores Aritmeticos
                 case '+':
                     return Token.SUMA;
                 case '-':
                     return Token.RESTA;
+                case '*':
+                    return Token.MULTIPLICACION;
+                case '/':
+                    return Token.DIVISION;
+                case "¿":
+                    return Token.DIVISION_ENTERA
+                case '^':
+                    return Token.POTENCIA;
+                case '%':
+                    return Token.MODULO;
+
+                //Operadores relacionales
+                case '<':
+                    return Token.MENOR_QUE;
+                case '>':
+                    return Token.MAYOR_QUE;
+                case '=':
+                   return Token.IGUAL_QUE;
+                case '!':
+                    return Token.DIFERENTE;
+
+                //Operadores logicos 
+                case '&':
+                    return Token.Y_LOGICO;
+                case '|':
+                    return Token.O_LOGICO;
+
+                //Parentesis
                 case '(':
                     return Token.ABRIR_PARENTESIS;
                 case ')':
                     return Token.CERRAR_PARENTESIS;
+                //Corchetes
+                case '[':
+                    return Token.ABRIR_CORCHETES;
+                case ']':
+                    return Token.CERRAR_CORCHETES;
+                //Coma
+                case ',':
+                    return Token.COMA;
+                //Punto y coma
+                case ';':
+                    return Token.PUNTO_COMA;  
+                //Comilla
+                case '"':
+                    return Token.COMILLA;
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
@@ -52,7 +95,6 @@ class Lexer {
                             this.longitud++;
                         }
 
-                        //return Token.VALOR_ENTERO;
                         if (this.posicion + this.longitud < n
                             && this.expresion.charAt(this.posicion + this.longitud) == '.') {
                             this.longitud++;
@@ -96,7 +138,7 @@ class Lexer {
     }
 
     private isDigit(char:string):boolean {
-        return (/^\d+$/.test(char));
+        return 48<=char.charCodeAt(0) && char.charCodeAt(0)<=57;
     }
 
 }
