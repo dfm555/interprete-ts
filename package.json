@@ -1,0 +1,37 @@
+{
+  "name": "interprete-ts",
+  "version": "1.0.0",
+  "description": "A simple project for the university",
+  "scripts": {
+    "build": "webpack --inline --colors --progress --display-error-details --display-cached",
+    "watch": "npm run build -- --watch",
+    "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 3000  --content-base src",
+    "start": "npm run server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfm555/interprete-ts.git"
+  },
+  "keywords": [
+    "interprete"
+  ],
+  "contributors": [
+    "Carlos Restrepo <carlosrestrepo.315@gmail.com>",
+    "Duber Montoya <dfm556@gmail.com>",
+    "Yording Cala <yording9@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfm555/interprete-ts/issues"
+  },
+  "homepage": "https://github.com/dfm555/interprete-ts#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.5",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.14.0",
+    "webpack-merge": "^0.8.4"
+  }
+}
