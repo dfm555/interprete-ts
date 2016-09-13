@@ -40,6 +40,10 @@ class Lexer {
                     return Token.SUMA;
                 case '-':
                     return Token.RESTA;
+                case '*':
+                    return Token.MULTIPLICACION;
+                case '/':
+                    return Token.DIVISION;
                 case '(':
                     return Token.ABRIR_PARENTESIS;
                 case ')':
@@ -52,7 +56,6 @@ class Lexer {
                             this.longitud++;
                         }
 
-                        //return Token.VALOR_ENTERO;
                         if (this.posicion + this.longitud < n
                             && this.expresion.charAt(this.posicion + this.longitud) == '.') {
                             this.longitud++;
@@ -96,7 +99,7 @@ class Lexer {
     }
 
     private isDigit(char:string):boolean {
-        return (/^\d+$/.test(char));
+        return 48<=char.charCodeAt(0) && char.charCodeAt(0)<=57;
     }
 
 }
