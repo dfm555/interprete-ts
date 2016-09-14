@@ -75,7 +75,7 @@ class App {
                     (<HTMLInputElement>document.getElementById('result')).value += "No logico " + lexer.obtenerSymbolo() + "\n";
                 }
                 if (lexer.match(Token.ASIGNACION)) {
-                    (<HTMLInputElement>document.getElementById('result')).value += "No logico " + lexer.obtenerSymbolo() + "\n";
+                    (<HTMLInputElement>document.getElementById('result')).value += "Asignación " + lexer.obtenerSymbolo() + "\n";
                 }
                 lexer.advance();
             }
