@@ -94,7 +94,16 @@ class Lexer {
                     return Token.PUNTO_COMA;
                 //Comilla
                 case '"':
-                    return Token.COMILLA;
+                    while (this.posicion + this.longitud < n && this.expresion.charAt(this.posicion
+                                + this.longitud)!='"') {
+                            this.longitud++;
+                    }
+                    if(this.posicion + this.longitud == n && this.expresion.charAt(this.posicion
+                                + this.longitud)!='"'){
+                        return Token.ERROR;
+                    }
+                    this.longitud=this.longitud+1;
+                    return Token.CADENA;
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
@@ -115,6 +124,35 @@ class Lexer {
                             return Token.VALOR_REAL;
                         }
                         return Token.VALOR_ENTERO;
+                    }
+                    //palabras reservadas
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="for"){
+                        this.longitud=3;
+                        return Token.FOR;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="const"){
+                        this.longitud=5;
+                        return Token.CONST;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="while"){
+                        this.longitud=5;
+                        return Token.WHILE;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="let"){
+                        this.longitud=3;
+                        return Token.LET;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="class"){
+                        this.longitud=5;
+                        return Token.CLASS;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="var"){
+                        this.longitud=3;
+                        return Token.VAR;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 2)=="if"){
+                        this.longitud=2;
+                        return Token.IF;
                     }
             }
         }
@@ -148,7 +186,18 @@ class Lexer {
         return this.expresion.substring(this.posicion, this.posicion
             + this.longitud);
     }
-
+    public obtenerCadena(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
+    public obtenerError(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
+    public obtenerPalabraReservada(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
     private isDigit(char: string): boolean {
         return 48 <= char.charCodeAt(0) && char.charCodeAt(0) <= 57;
     }

@@ -77,6 +77,42 @@ class App {
                 if (lexer.match(Token.ASIGNACION)) {
                     (<HTMLInputElement>document.getElementById('result')).value += "Asignación " + lexer.obtenerSymbolo() + "\n";
                 }
+                if (lexer.match(Token.CADENA)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Cadena " + lexer.obtenerCadena() + "\n";
+                }
+                if (lexer.match(Token.ERROR)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Error " + lexer.obtenerError() + "\n";
+                }
+                if (lexer.match(Token.VAR)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.IF)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.WHILE)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.FOR)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.CONST)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.LET)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.CLASS)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.CLASS)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+                }
+                if (lexer.match(Token.ABRIR_CORCHETES)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Corchete " + lexer.obtenerSymbolo() + "\n";
+                }
+                if (lexer.match(Token.CERRAR_CORCHETES)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "Corchete " + lexer.obtenerSymbolo() + "\n";
+                }
                 lexer.advance();
             }
         } else {

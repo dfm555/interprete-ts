@@ -34,16 +34,20 @@ class Token {
     public static  CERRAR_CORCHETES:number = 21;
     public static  COMA:number = 22;
     public static  PUNTO_COMA:number = 23;
-    public static  COMILLA:number = 24;
+    public static  CADENA:number = 24;
     public static  ASIGNACION = 25;
     public static  IDENTIFICADOR = 26;
 
     //Palabras reservadas
-    public static  VAR = 25;
-    public static  IF = 25;
-    public static  WHILE = 25;
-    public static  FOR = 25;
-    public static  CONST = 25;
+    public static  VAR = 27;
+    public static  IF = 28;
+    public static  WHILE = 29;
+    public static  FOR = 30;
+    public static  CONST = 31;
+    public static  LET = 32;
+    public static  CLASS = 33;
+
+
     //
     public static  VALOR_ENTERO:number = 100;
     public static  VALOR_REAL:number = 101;
