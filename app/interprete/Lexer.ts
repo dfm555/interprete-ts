@@ -6,24 +6,24 @@ import {Token} from "./Token";
 
 class Lexer {
 
-    private expresion:string;
-    private posicion:number;
-    private longitud:number;
-    private nuevoToken:number;
+    private expresion: string;
+    private posicion: number;
+    private longitud: number;
+    private nuevoToken: number;
 
-    constructor(expresion:string) {
+    constructor(expresion: string) {
         this.establecer(expresion);
     }
 
-    public establecer(expresion:string):void {
+    public establecer(expresion: string): void {
         this.expresion = "" + expresion;
         this.posicion = 0;
         this.longitud = 0;
         this.nuevoToken = 0;
     }
 
-    private getToken():number {
-        let n:number = this.expresion.length;
+    private getToken(): number {
+        let n: number = this.expresion.length;
         this.posicion += this.longitud;
 
         this.longitud = 1;
@@ -33,7 +33,7 @@ class Lexer {
         }
 
         if (this.posicion < n) {
-            let caracter:string = this.expresion.charAt(this.posicion);
+            let caracter: string = this.expresion.charAt(this.posicion);
 
             switch (caracter) {
                 //Operadores Aritmeticos
@@ -58,9 +58,17 @@ class Lexer {
                 case '>':
                     return Token.MAYOR_QUE;
                 case '=':
-                   return Token.IGUAL_QUE;
+                    if (this.expresion.charAt(this.posicion + 1) == '=') {
+                        this.longitud++;
+                        return Token.IGUAL_QUE;
+                    }
+                    return Token.ASIGNACION;
                 case '!':
-                    return Token.DIFERENTE;
+                    if (this.expresion.charAt(this.posicion + 1) == '=') {
+                        this.longitud++;
+                        return Token.DIFERENTE;
+                    }
+                    return Token.NO_LOGICO;
 
                 //Operadores logicos 
                 case '&':
@@ -83,15 +91,24 @@ class Lexer {
                     return Token.COMA;
                 //Punto y coma
                 case ';':
-                    return Token.PUNTO_COMA;  
+                    return Token.PUNTO_COMA;
                 //Comilla
                 case '"':
-                    return Token.COMILLA;
+                    while (this.posicion + this.longitud < n && this.expresion.charAt(this.posicion
+                                + this.longitud)!='"') {
+                            this.longitud++;
+                    }
+                    if(this.posicion + this.longitud == n && this.expresion.charAt(this.posicion
+                                + this.longitud)!='"'){
+                        return Token.ERROR;
+                    }
+                    this.longitud=this.longitud+1;
+                    return Token.CADENA;
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
-                        && this.isDigit(this.expresion.charAt(this.posicion
-                            + this.longitud))) {
+                            && this.isDigit(this.expresion.charAt(this.posicion
+                                + this.longitud))) {
                             this.longitud++;
                         }
 
@@ -100,13 +117,42 @@ class Lexer {
                             this.longitud++;
 
                             while (this.posicion + this.longitud < n
-                            && this.isDigit(this.expresion.charAt(this.posicion
-                                + this.longitud))) {
+                                && this.isDigit(this.expresion.charAt(this.posicion
+                                    + this.longitud))) {
                                 this.longitud++;
                             }
                             return Token.VALOR_REAL;
                         }
                         return Token.VALOR_ENTERO;
+                    }
+                    //palabras reservadas
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="for"){
+                        this.longitud=3;
+                        return Token.FOR;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="const"){
+                        this.longitud=5;
+                        return Token.CONST;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="while"){
+                        this.longitud=5;
+                        return Token.WHILE;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="let"){
+                        this.longitud=3;
+                        return Token.LET;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="class"){
+                        this.longitud=5;
+                        return Token.CLASS;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="var"){
+                        this.longitud=3;
+                        return Token.VAR;
+                    }
+                    if(this.expresion.substring(this.posicion, this.posicion + 2)=="if"){
+                        this.longitud=2;
+                        return Token.IF;
                     }
             }
         }
@@ -114,10 +160,10 @@ class Lexer {
         return Token.FIN_ARCHIVO;
     }
 
-    public advance():void {
+    public advance(): void {
         this.nuevoToken = this.getToken();
     }
-    public match(token:number):boolean {
+    public match(token: number): boolean {
         if (this.nuevoToken == 0) {
             this.nuevoToken = this.getToken();
         }
@@ -125,24 +171,35 @@ class Lexer {
         return token == this.nuevoToken;
     }
 
-    public obtenerEntero():number {
+    public obtenerEntero(): number {
 
         return Number(this.expresion.substring(this.posicion, this.posicion
             + this.longitud));
     }
-    
-    public obtenerReal():number {
+
+    public obtenerReal(): number {
         return Number(this.expresion.substring(this.posicion, this.posicion
             + this.longitud));
     }
 
-    public obtenerSymbolo():string{
+    public obtenerSymbolo(): string {
         return this.expresion.substring(this.posicion, this.posicion
-          + this.longitud);
+            + this.longitud);
     }
-
-    private isDigit(char:string):boolean {
-        return 48<=char.charCodeAt(0) && char.charCodeAt(0)<=57;
+    public obtenerCadena(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
+    public obtenerError(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
+    public obtenerPalabraReservada(): string {
+        return this.expresion.substring(this.posicion, this.posicion
+            + this.longitud);
+    }
+    private isDigit(char: string): boolean {
+        return 48 <= char.charCodeAt(0) && char.charCodeAt(0) <= 57;
     }
 
 }
