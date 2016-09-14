@@ -104,9 +104,6 @@ class App {
                 if (lexer.match(Token.CLASS)) {
                     (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
                 }
-                if (lexer.match(Token.CLASS)) {
-                    (<HTMLInputElement>document.getElementById('result')).value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
-                }
                 if (lexer.match(Token.ABRIR_CORCHETES)) {
                     (<HTMLInputElement>document.getElementById('result')).value += "Corchete " + lexer.obtenerSymbolo() + "\n";
                 }

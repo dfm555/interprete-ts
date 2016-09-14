@@ -35,17 +35,17 @@ class Token {
     public static  COMA:number = 22;
     public static  PUNTO_COMA:number = 23;
     public static  CADENA:number = 24;
-    public static  ASIGNACION = 25;
-    public static  IDENTIFICADOR = 26;
+    public static  ASIGNACION:number = 25;
+    public static  IDENTIFICADOR:number = 26;
 
     //Palabras reservadas
-    public static  VAR = 27;
-    public static  IF = 28;
-    public static  WHILE = 29;
-    public static  FOR = 30;
-    public static  CONST = 31;
-    public static  LET = 32;
-    public static  CLASS = 33;
+    public static  VAR:number = 27;
+    public static  IF:number = 28;
+    public static  WHILE:number = 29;
+    public static  FOR:number = 30;
+    public static  CONST:number = 31;
+    public static  LET:number = 32;
+    public static  CLASS:number = 33;
 
 
     //
