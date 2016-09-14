@@ -6,6 +6,9 @@ import {Token} from './interprete/Token'
 /* class app */
 class App{
 
+    private static clear():void{
+        (<HTMLInputElement>document.getElementById('result')).value="";
+    }
     private static init():void{
 
         var programa = (<HTMLInputElement>document.getElementById('code')).value;
@@ -51,6 +54,7 @@ class App{
 
     public static main():void {
         document.getElementById('generate').addEventListener('click', this.init)
+        document.getElementById('clear').addEventListener('click', this.clear)
     }
 
 }
