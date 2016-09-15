@@ -110,6 +110,9 @@ class App {
                 if (lexer.match(Token.CERRAR_CORCHETES)) {
                     (<HTMLInputElement>document.getElementById('result')).value += "Corchete " + lexer.obtenerSymbolo() + "\n";
                 }
+                 if (lexer.match(Token.IDENTIFICADOR)) {
+                    (<HTMLInputElement>document.getElementById('result')).value += "variable " + lexer.obtenerSymbolo() + "\n";
+                }
                 lexer.advance();
             }
         } else {
