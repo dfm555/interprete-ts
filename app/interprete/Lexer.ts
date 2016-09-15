@@ -54,8 +54,16 @@ class Lexer {
 
                 //Operadores relacionales
                 case '<':
+                    if (this.expresion.charAt(this.posicion + 1) == '=') {
+                        this.longitud++;
+                        return Token.MENOR_IGUAL_QUE;
+                    }
                     return Token.MENOR_QUE;
                 case '>':
+                    if (this.expresion.charAt(this.posicion + 1) == '=') {
+                        this.longitud++;
+                        return Token.MAYOR_IGUAL_QUE;
+                    }
                     return Token.MAYOR_QUE;
                 case '=':
                     if (this.expresion.charAt(this.posicion + 1) == '=') {
@@ -126,34 +134,59 @@ class Lexer {
                         return Token.VALOR_ENTERO;
                     }
                     //palabras reservadas
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="for"){
+                    
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="for" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
                         this.longitud=3;
                         return Token.FOR;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="const"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="const" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
                         this.longitud=5;
                         return Token.CONST;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="while"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="while" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
                         this.longitud=5;
                         return Token.WHILE;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="let"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="let" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
                         this.longitud=3;
                         return Token.LET;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="class"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="class" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
                         this.longitud=5;
                         return Token.CLASS;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="var"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="var" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
                         this.longitud=3;
                         return Token.VAR;
                     }
-                    if(this.expresion.substring(this.posicion, this.posicion + 2)=="if"){
+                    if(this.expresion.substring(this.posicion, this.posicion + 2)=="if" && (this.expresion.charAt(this.posicion + 2) =="" || this.expresion.charAt(this.posicion + 2)==" ")){
                         this.longitud=2;
                         return Token.IF;
                     }
+
+                    //identificadores
+                    // if(caracter=='_' || this.isAlfabeto(caracter)){
+                    //     while(this.posicion + this.longitud < n
+                    //         && this.expresion.charAt(this.posicion
+                    //             + this.longitud)=="_"){
+                    //         this.longitud++;
+                    //     }
+                    //     if(!this.isAlfabeto(this.expresion.charAt(this.posicion
+                    //             + this.longitud+1))){
+                    //         return Token.ERROR;
+                    //     }
+                    //     else{
+                    //         console.log(this.expresion.charAt(this.posicion+ this.longitud));
+                    //         while(this.posicion + this.longitud < n && (this.expresion.charAt(this.posicion
+                    //             + this.longitud+1)!=" " || this.expresion.charAt(this.posicion
+                    //             + this.longitud+1)!="")){
+                    //             console.log(this.expresion.charAt(this.posicion+ this.longitud));
+                    //            this.longitud++; 
+                    //         }
+                    //         return Token.IDENTIFICADOR;
+                    //     }
+                    // }
+                    return Token.NADA;
             }
         }
 
@@ -197,6 +230,9 @@ class Lexer {
     public obtenerPalabraReservada(): string {
         return this.expresion.substring(this.posicion, this.posicion
             + this.longitud);
+    }
+    private isAlfabeto(char: string): boolean{
+        return (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90) || (97 <= char.charCodeAt(0) && char.charCodeAt(0) <= 122);
     }
     private isDigit(char: string): boolean {
         return 48 <= char.charCodeAt(0) && char.charCodeAt(0) <= 57;
