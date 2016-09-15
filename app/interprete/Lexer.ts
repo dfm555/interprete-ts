@@ -112,6 +112,18 @@ class Lexer {
                     }
                     this.longitud=this.longitud+1;
                     return Token.CADENA;
+                case 'f':
+                this.longitud++;
+                    if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
+                            this.longitud++;
+                            if (this.expresion.charAt(this.posicion + this.longitud) == ' ') {
+                                return Token.FOR;
+                            }
+                        }
+                    }
+
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
@@ -135,10 +147,6 @@ class Lexer {
                     }
                     //palabras reservadas
                     
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="for" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
-                        this.longitud=3;
-                        return Token.FOR;
-                    }
                     if(this.expresion.substring(this.posicion, this.posicion + 5)=="const" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
                         this.longitud=5;
                         return Token.CONST;
@@ -186,7 +194,6 @@ class Lexer {
                     //         return Token.IDENTIFICADOR;
                     //     }
                     // }
-                    return Token.NADA;
             }
         }
 

@@ -5,7 +5,6 @@ class Token {
     public static FIN_ARCHIVO: number = -1;
     //
     public static ERROR:number = -2;
-    public static NADA;
     //
     public static  SUMA:number = 1;
     public static  RESTA:number = 2;
