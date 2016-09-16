@@ -6,11 +6,13 @@ module.exports = {
     entry: './app/app.ts',
 
     output: {
-        path: './src',
+        path: './src/assets/js',
+        publicPath: "/assets/",
         filename: 'bundle.js'
     },
 
     resolve: {
+        root: [ path.resolve(__dirname, 'src/assets/js') ],
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
     // Add minification
