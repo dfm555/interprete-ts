@@ -129,7 +129,7 @@ class Lexer {
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
                             this.longitud++;
                             if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-                                return Token.FOR;
+                                return Token.VAR;
                             }
                         }
                     }
@@ -139,7 +139,7 @@ class Lexer {
                         if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
                             this.longitud++;
                             if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-                                return Token.FOR;
+                                return Token.LET;
                             }
                         }
                     }
@@ -147,7 +147,7 @@ class Lexer {
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'f') {
                         this.longitud++;
                         if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-                                return Token.FOR;
+                                return Token.IF;
                         }
                     }
                case 'c':
@@ -175,7 +175,7 @@ class Lexer {
 	                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
 	                                this.longitud++;
 		                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-		                                return Token.CONST;
+		                                return Token.CLASS;
 		                            }
 	                            }
                             }
@@ -191,12 +191,38 @@ class Lexer {
 	                            if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                                this.longitud++;
 		                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-		                                return Token.CONST;
+		                                return Token.WHILE;
 		                            }
 	                            }
                             }
                         }
                     }
+                //identificadores
+                case '@':
+                	console.log(caracter);
+                	if(caracter=='_' || this.isAlfabeto(this.expresion.charAt(this.posicion+ this.longitud))){
+   
+                        while(this.posicion + this.longitud < n
+                            && this.expresion.charAt(this.posicion
+                                + this.longitud)=="_"){
+                            this.longitud++;
+                        }
+                        if(!this.isAlfabeto(this.expresion.charAt(this.posicion
+                                + this.longitud))){
+                        	this.longitud++;
+                            return;
+                        }
+                        else{
+                            while(this.posicion + this.longitud < n && (this.expresion.charAt(this.posicion
+                                + this.longitud)!=" ")){
+                                console.log(this.expresion.charAt(this.posicion+ this.longitud));
+                               this.longitud++; 
+                            }
+                            console.log(this.longitud,this.expresion.charAt(this.posicion+ this.longitud))
+                            return Token.IDENTIFICADOR;
+                        }
+                    }
+
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
@@ -219,28 +245,8 @@ class Lexer {
                         return Token.VALOR_ENTERO;
                     }
                    
-                    //identificadores
-                    // if(caracter=='_' || this.isAlfabeto(caracter)){
-                    //     while(this.posicion + this.longitud < n
-                    //         && this.expresion.charAt(this.posicion
-                    //             + this.longitud)=="_"){
-                    //         this.longitud++;
-                    //     }
-                    //     if(!this.isAlfabeto(this.expresion.charAt(this.posicion
-                    //             + this.longitud+1))){
-                    //         return Token.ERROR;
-                    //     }
-                    //     else{
-                    //         console.log(this.expresion.charAt(this.posicion+ this.longitud));
-                    //         while(this.posicion + this.longitud < n && (this.expresion.charAt(this.posicion
-                    //             + this.longitud+1)!=" " || this.expresion.charAt(this.posicion
-                    //             + this.longitud+1)!="")){
-                    //             console.log(this.expresion.charAt(this.posicion+ this.longitud));
-                    //            this.longitud++; 
-                    //         }
-                    //         return Token.IDENTIFICADOR;
-                    //     }
-                    // }
+                    // identificadores
+                    
             }
         }
 
