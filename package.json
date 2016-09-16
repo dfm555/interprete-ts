@@ -6,7 +6,9 @@
     "build": "webpack --inline --colors --progress --display-error-details --display-cached",
     "watch": "npm run build -- --watch",
     "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 3000  --content-base src",
-    "start": "npm run server"
+    "start-dev": "npm run server",
+    "production": "node server.js",
+    "start": "npm run build & npm run production"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,9 @@
     "url": "https://github.com/dfm555/interprete-ts/issues"
   },
   "homepage": "https://github.com/dfm555/interprete-ts#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.14.0"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "ts-loader": "^0.8.2",
