@@ -12,7 +12,6 @@ module.exports = {
     },
 
     resolve: {
-        root: [ path.resolve(__dirname, 'src/assets/js') ],
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
     // Add minification

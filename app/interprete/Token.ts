@@ -47,6 +47,8 @@ class Token {
     public static  LET:number = 32;
     public static  CLASS:number = 33;
 
+    public static TRUE:number = 34;
+    public static FALSE:number = 35;
 
     //
     public static  VALOR_ENTERO:number = 100;

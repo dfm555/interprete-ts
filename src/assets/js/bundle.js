@@ -64,100 +64,112 @@
 	                    document.getElementById('result').value += "Entero " + lexer.obtenerEntero() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.SUMA)) {
-	                    document.getElementById('result').value += "Suma " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Suma " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.RESTA)) {
-	                    document.getElementById('result').value += "Resta " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Resta " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MULTIPLICACION)) {
-	                    document.getElementById('result').value += "Multiplicacion " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Multiplicacion " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.VALOR_REAL)) {
 	                    document.getElementById('result').value += "Real " + lexer.obtenerReal() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.ABRIR_PARENTESIS)) {
-	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.DIVISION)) {
-	                    document.getElementById('result').value += "Division " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Division " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.CERRAR_PARENTESIS)) {
-	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.DIVISION_ENTERA)) {
-	                    document.getElementById('result').value += "Division Entera " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Division Entera " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MODULO)) {
-	                    document.getElementById('result').value += "Modulo " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Modulo " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.POTENCIA)) {
-	                    document.getElementById('result').value += "Potencia " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Potencia " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MENOR_QUE)) {
-	                    document.getElementById('result').value += "Menor que " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Menor que " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MAYOR_QUE)) {
-	                    document.getElementById('result').value += "Mayor que " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Mayor que " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Igual que " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Igual que " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MENOR_IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Menor igual que " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Menor igual que " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.MAYOR_IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Mayor igual que " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Mayor igual que " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.DIFERENTE)) {
-	                    document.getElementById('result').value += "Diferente " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Diferente " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.Y_LOGICO)) {
-	                    document.getElementById('result').value += "Y logico " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Y logico " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.O_LOGICO)) {
-	                    document.getElementById('result').value += "O logico " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "O logico " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.NO_LOGICO)) {
-	                    document.getElementById('result').value += "No logico " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "No logico " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.ASIGNACION)) {
-	                    document.getElementById('result').value += "Asignación " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Asignación " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.CADENA)) {
-	                    document.getElementById('result').value += "Cadena " + lexer.obtenerCadena() + "\n";
+	                    document.getElementById('result').value += "Cadena " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.ERROR)) {
-	                    document.getElementById('result').value += "Error " + lexer.obtenerError() + "\n";
+	                    document.getElementById('result').value += "Error " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.VAR)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.IF)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.WHILE)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.FOR)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.CONST)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.LET)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.CLASS)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerPalabraReservada() + "\n";
+	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.ABRIR_CORCHETES)) {
-	                    document.getElementById('result').value += "Corchete " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Corchete " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.CERRAR_CORCHETES)) {
-	                    document.getElementById('result').value += "Corchete " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "Corchete " + lexer.obtenerValor() + "\n";
 	                }
 	                if (lexer.match(Token_1.Token.IDENTIFICADOR)) {
-	                    document.getElementById('result').value += "variable " + lexer.obtenerSymbolo() + "\n";
+	                    document.getElementById('result').value += "variable " + lexer.obtenerValor() + "\n";
+	                }
+	                if (lexer.match(Token_1.Token.PUNTO_COMA)) {
+	                    document.getElementById('result').value += "punto y coma " + lexer.obtenerValor() + "\n";
+	                }
+	                if (lexer.match(Token_1.Token.COMA)) {
+	                    document.getElementById('result').value += "Coma " + lexer.obtenerValor() + "\n";
+	                }
+	                if (lexer.match(Token_1.Token.FALSE)) {
+	                    document.getElementById('result').value += "False " + lexer.obtenerValor() + "\n";
+	                }
+	                if (lexer.match(Token_1.Token.TRUE)) {
+	                    document.getElementById('result').value += "True " + lexer.obtenerValor() + "\n";
 	                }
 	                lexer.advance();
 	            }
@@ -287,33 +299,52 @@
 	                            }
 	                        }
 	                    }
+	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
+	                        this.longitud++;
+	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
+	                            this.longitud++;
+	                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
+	                                this.longitud++;
+	                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+	                                    this.longitud++;
+	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+	                                        return Token_1.Token.FALSE;
+	                                    }
+	                                }
+	                            }
+	                        }
+	                    }
+	                    break;
 	                case 'v':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
 	                        this.longitud++;
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
 	                            this.longitud++;
 	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.FOR;
+	                                return Token_1.Token.VAR;
 	                            }
 	                        }
 	                    }
+	                    break;
 	                case 'l':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                        this.longitud++;
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
 	                            this.longitud++;
 	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.FOR;
+	                                return Token_1.Token.LET;
 	                            }
 	                        }
 	                    }
+	                    break;
 	                case 'i':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'f') {
 	                        this.longitud++;
 	                        if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                            return Token_1.Token.FOR;
+	                            return Token_1.Token.IF;
 	                        }
 	                    }
+	                    break;
 	                case 'c':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
 	                        this.longitud++;
@@ -339,12 +370,13 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.CONST;
+	                                        return Token_1.Token.CLASS;
 	                                    }
 	                                }
 	                            }
 	                        }
 	                    }
+	                    break;
 	                case 'w':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'h') {
 	                        this.longitud++;
@@ -355,12 +387,50 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.CONST;
+	                                        return Token_1.Token.WHILE;
 	                                    }
 	                                }
 	                            }
 	                        }
 	                    }
+	                    break;
+	                case 't':
+	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
+	                        this.longitud++;
+	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'u') {
+	                            this.longitud++;
+	                            if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+	                                this.longitud++;
+	                                if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+	                                    return Token_1.Token.TRUE;
+	                                }
+	                            }
+	                        }
+	                    }
+	                    break;
+	                //identificadores
+	                case '@':
+	                    if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
+	                        while (this.posicion + this.longitud < n
+	                            && this.expresion.charAt(this.posicion
+	                                + this.longitud) == "_") {
+	                            this.longitud++;
+	                        }
+	                        if (!this.isAlfabeto(this.expresion.charAt(this.posicion
+	                            + this.longitud))) {
+	                            this.longitud++;
+	                            return;
+	                        }
+	                        else {
+	                            while (this.posicion + this.longitud < n && (this.isAlfabeto(this.expresion.charAt(this.posicion
+	                                + this.longitud))) || this.isDigit(this.expresion.charAt(this.posicion
+	                                + this.longitud))) {
+	                                this.longitud++;
+	                            }
+	                            return Token_1.Token.IDENTIFICADOR;
+	                        }
+	                    }
+	                    break;
 	                default:
 	                    if (this.isDigit(caracter)) {
 	                        while (this.posicion + this.longitud < n
@@ -401,19 +471,7 @@
 	        return Number(this.expresion.substring(this.posicion, this.posicion
 	            + this.longitud));
 	    };
-	    Lexer.prototype.obtenerSymbolo = function () {
-	        return this.expresion.substring(this.posicion, this.posicion
-	            + this.longitud);
-	    };
-	    Lexer.prototype.obtenerCadena = function () {
-	        return this.expresion.substring(this.posicion, this.posicion
-	            + this.longitud);
-	    };
-	    Lexer.prototype.obtenerError = function () {
-	        return this.expresion.substring(this.posicion, this.posicion
-	            + this.longitud);
-	    };
-	    Lexer.prototype.obtenerPalabraReservada = function () {
+	    Lexer.prototype.obtenerValor = function () {
 	        return this.expresion.substring(this.posicion, this.posicion
 	            + this.longitud);
 	    };
@@ -479,6 +537,8 @@
 	    Token.CONST = 31;
 	    Token.LET = 32;
 	    Token.CLASS = 33;
+	    Token.TRUE = 34;
+	    Token.FALSE = 35;
 	    //
 	    Token.VALOR_ENTERO = 100;
 	    Token.VALOR_REAL = 101;
