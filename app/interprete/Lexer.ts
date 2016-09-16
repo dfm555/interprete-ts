@@ -112,18 +112,91 @@ class Lexer {
                     }
                     this.longitud=this.longitud+1;
                     return Token.CADENA;
+                //Palabras reservadas
                 case 'f':
-                this.longitud++;
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
                             this.longitud++;
-                            if (this.expresion.charAt(this.posicion + this.longitud) == ' ') {
+                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
                                 return Token.FOR;
                             }
                         }
                     }
-
+                case 'v':
+                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
+                            this.longitud++;
+                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+                                return Token.FOR;
+                            }
+                        }
+                    }
+                case 'l':
+                    if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
+                            this.longitud++;
+                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+                                return Token.FOR;
+                            }
+                        }
+                    }
+                case 'i':
+                    if (this.expresion.charAt(this.posicion + this.longitud) == 'f') {
+                        this.longitud++;
+                        if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+                                return Token.FOR;
+                        }
+                    }
+               case 'c':
+	                if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 'n') {
+                            this.longitud++;
+                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
+                                this.longitud++;
+	                            if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
+	                                this.longitud++;
+		                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+		                                return Token.CONST;
+		                            }
+	                            }
+                            }
+                        }
+                    }
+                    if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
+                            this.longitud++;
+                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
+                                this.longitud++;
+	                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
+	                                this.longitud++;
+		                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+		                                return Token.CONST;
+		                            }
+	                            }
+                            }
+                        }
+                    }
+                case 'w':
+	                if (this.expresion.charAt(this.posicion + this.longitud) == 'h') {
+                        this.longitud++;
+                        if (this.expresion.charAt(this.posicion + this.longitud) == 'i') {
+                            this.longitud++;
+                            if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
+                                this.longitud++;
+	                            if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+	                                this.longitud++;
+		                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+		                                return Token.CONST;
+		                            }
+	                            }
+                            }
+                        }
+                    }
                 default:
                     if (this.isDigit(caracter)) {
                         while (this.posicion + this.longitud < n
@@ -145,33 +218,7 @@ class Lexer {
                         }
                         return Token.VALOR_ENTERO;
                     }
-                    //palabras reservadas
-                    
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="const" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
-                        this.longitud=5;
-                        return Token.CONST;
-                    }
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="while" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
-                        this.longitud=5;
-                        return Token.WHILE;
-                    }
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="let" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
-                        this.longitud=3;
-                        return Token.LET;
-                    }
-                    if(this.expresion.substring(this.posicion, this.posicion + 5)=="class" && (this.expresion.charAt(this.posicion + 5) =="" || this.expresion.charAt(this.posicion + 5)==" ")){
-                        this.longitud=5;
-                        return Token.CLASS;
-                    }
-                    if(this.expresion.substring(this.posicion, this.posicion + 3)=="var" && (this.expresion.charAt(this.posicion + 3) =="" || this.expresion.charAt(this.posicion + 3)==" ")){
-                        this.longitud=3;
-                        return Token.VAR;
-                    }
-                    if(this.expresion.substring(this.posicion, this.posicion + 2)=="if" && (this.expresion.charAt(this.posicion + 2) =="" || this.expresion.charAt(this.posicion + 2)==" ")){
-                        this.longitud=2;
-                        return Token.IF;
-                    }
-
+                   
                     //identificadores
                     // if(caracter=='_' || this.isAlfabeto(caracter)){
                     //     while(this.posicion + this.longitud < n
