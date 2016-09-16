@@ -6,7 +6,7 @@
     "build": "webpack --inline --colors --progress --display-error-details --display-cached",
     "watch": "npm run build -- --watch",
     "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 3000  --content-base src",
-    "start-dev": "npm run server",
+    "start-dev": "npm run build & npm run server",
     "production": "node server.js",
     "start": "npm run build & npm run production"
   },
