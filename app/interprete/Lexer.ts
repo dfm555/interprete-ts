@@ -328,5 +328,5 @@ class Lexer {
     }
 
 }
-console.log('holitas')
+
 export {Lexer}
