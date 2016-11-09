@@ -1,26 +1,31 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack'),
+  path = require('path'),
+  HtmlWebpackPlugin  = require('html-webpack-plugin');
+
 module.exports = {
-
-
-    entry: './app/app.ts',
+    
+    
+    entry: [
+        path.resolve(__dirname, 'app/app.ts'),
+    ],
 
     output: {
-        path: './src/assets/js',
-        publicPath: "/assets/",
+        path: './src/assets/js/',
         filename: 'bundle.js'
     },
 
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
     },
     // Add minification
     plugins: [
-
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
     ],
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts' }
+            { test: /\.tsx?$/, loader: 'ts-loader' }
         ]
     }
 }

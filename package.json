@@ -6,7 +6,7 @@
     "build": "webpack --inline --colors --progress --display-error-details --display-cached",
     "watch": "npm run build -- --watch",
     "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 3000  --content-base src",
-    "start-dev": "npm run build & npm run server",
+    "start-dev": "concurrently --kill-others & npm run build & npm run server",
     "production": "node server.js",
     "start": "npm run build & npm run production"
   },
@@ -31,12 +31,16 @@
     "express": "^4.14.0"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^2.2.4",
+    "browser-sync": "^2.17.5",
     "gulp": "^3.9.1",
+    "html-webpack-plugin": "^2.24.1",
+    "raw-loader": "^0.5.1",
     "ts-loader": "^0.8.2",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.5",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.14.0",
+    "typescript": "^2.1.1",
+    "typings": "^1.5.0",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2",
     "webpack-merge": "^0.8.4"
   }
 }

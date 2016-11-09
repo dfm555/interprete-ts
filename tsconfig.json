@@ -3,9 +3,13 @@
     "module": "commonjs",
     "target": "es5",
     "sourceMap": false,
-    "outDir": "src"
+    "outDir": "src",
+    "moduleResolution": "node"
   },
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "atom": { "rewriteTsconfig": false }
 }
