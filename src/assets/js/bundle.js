@@ -98,7 +98,8 @@
 	        parser.declaraciones();
 	        this.cadenaResultado = "";
 	        this.listaInstrucciones = parser.obtenerInstrucciones();
-	        this.pilaNumeros = new Array;
+	        //noinspection JSAnnotator
+				this.pilaNumeros = new Array;
 	    }
 	    VM.prototype.run = function () {
 	        var n = this.listaInstrucciones.length;
