@@ -9,7 +9,7 @@ class App {
 
     private static init(): void {
 
-        var programa = (<HTMLInputElement>document.getElementById('code')).value;
+        let programa = (<HTMLInputElement>document.getElementById('code')).value;
 
         if (programa !== '') {
             

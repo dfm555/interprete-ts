@@ -9,8 +9,8 @@ import {Instruccion} from './Instruccion';
 class Parser {
 
 
-    private readonly lexer:Lexer;
-    private readonly listaInstrucciones:Array<number>;
+    private lexer:Lexer;
+    private listaInstrucciones:Array<number>;
 
     constructor(lexer:Lexer) {
         this.lexer = lexer;
@@ -24,7 +24,7 @@ class Parser {
         }
 
         this.listaInstrucciones.push(Instruccion.FIN);
-        //System.out.println("Fin!");
+
     }
 
     expresiones():void {
@@ -44,31 +44,26 @@ class Parser {
 
     termino():void {
         if (this.lexer.match(Token.VALOR_ENTERO)) {
-            let entero:number = this.lexer.obtenerEntero();
 
+            let entero:number = this.lexer.obtenerEntero();
             this.listaInstrucciones.push(Instruccion.PUSH_NUMERO_ENTERO);
             this.listaInstrucciones.push(entero);
-
             this.lexer.advance();
-        } else if (this.lexer.match(Token.VALOR_REAL)) {
-            let real:number = this.lexer.obtenerReal();
-            //System.out.println("real: " + real);
 
+        } else if (this.lexer.match(Token.VALOR_REAL)) {
+
+            let real:number = this.lexer.obtenerReal();
             this.listaInstrucciones.push(Instruccion.PUSH_NUMERO_REAL);
             this.listaInstrucciones.push(real);
-
             this.lexer.advance();
-        } else if (this.lexer.match(Token.ABRIR_PARENTESIS)) {
-            console.log('(');
 
+        } else if (this.lexer.match(Token.ABRIR_PARENTESIS)) {
             this.lexer.advance();
             this.expresion();
             if (!this.lexer.match(Token.CERRAR_PARENTESIS)) {
                 console.log("Error: Se esperaba )");
                 return;
             }
-            console.log(")");
-
             this.lexer.advance();
         }
     }
