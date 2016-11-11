@@ -3,6 +3,7 @@
  */
 import {Lexer} from './interprete/Lexer'
 import {Token} from './interprete/Token'
+import {VM} from './interprete/VM'
 /* class app */
 class App {
 
@@ -11,7 +12,18 @@ class App {
         var programa = (<HTMLInputElement>document.getElementById('code')).value;
 
         if (programa !== '') {
-            let lexer: Lexer = new Lexer(programa);
+            
+//
+//        Lexer lexer = new Lexer(expresion);
+//        Parser parser = new Parser(lexer);
+//        parser.declaraciones();
+            //
+           let calculadora:VM = new VM(programa);
+
+            calculadora.run();
+            (<HTMLInputElement>document.getElementById('result')).value = "\n" + calculadora.getAnswer();
+            
+/*            let lexer: Lexer = new Lexer(programa);
             (<HTMLInputElement>document.getElementById('result')).value = "";
             while (!lexer.match(Token.FIN_ARCHIVO)) {
                 if (lexer.match(Token.VALOR_ENTERO)) {
@@ -126,7 +138,7 @@ class App {
                     (<HTMLInputElement>document.getElementById('result')).value += "True " + lexer.obtenerValor() + "\n";
                 }
                 lexer.advance();
-            }
+            }*/
         } else {
             (<HTMLInputElement>document.getElementById('result')).value = "Digite su código";
         }
