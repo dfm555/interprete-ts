@@ -52,11 +52,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	/**
-	 * Created by duber on 12/09/16.
-	 */
-	var Lexer_1 = __webpack_require__(2);
-	var Token_1 = __webpack_require__(3);
+	var VM_1 = __webpack_require__(2);
 	/* class app */
 	var App = (function () {
 	    function App() {
@@ -64,122 +60,14 @@
 	    App.init = function () {
 	        var programa = document.getElementById('code').value;
 	        if (programa !== '') {
-	            var lexer = new Lexer_1.Lexer(programa);
-	            document.getElementById('result').value = "";
-	            while (!lexer.match(Token_1.Token.FIN_ARCHIVO)) {
-	                if (lexer.match(Token_1.Token.VALOR_ENTERO)) {
-	                    document.getElementById('result').value += "Entero " + lexer.obtenerEntero() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.SUMA)) {
-	                    document.getElementById('result').value += "Suma " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.RESTA)) {
-	                    document.getElementById('result').value += "Resta " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MULTIPLICACION)) {
-	                    document.getElementById('result').value += "Multiplicacion " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.VALOR_REAL)) {
-	                    document.getElementById('result').value += "Real " + lexer.obtenerReal() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.ABRIR_PARENTESIS)) {
-	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.DIVISION)) {
-	                    document.getElementById('result').value += "Division " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.CERRAR_PARENTESIS)) {
-	                    document.getElementById('result').value += "Parentesis " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.DIVISION_ENTERA)) {
-	                    document.getElementById('result').value += "Division Entera " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MODULO)) {
-	                    document.getElementById('result').value += "Modulo " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.POTENCIA)) {
-	                    document.getElementById('result').value += "Potencia " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MENOR_QUE)) {
-	                    document.getElementById('result').value += "Menor que " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MAYOR_QUE)) {
-	                    document.getElementById('result').value += "Mayor que " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Igual que " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MENOR_IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Menor igual que " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.MAYOR_IGUAL_QUE)) {
-	                    document.getElementById('result').value += "Mayor igual que " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.DIFERENTE)) {
-	                    document.getElementById('result').value += "Diferente " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.Y_LOGICO)) {
-	                    document.getElementById('result').value += "Y logico " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.O_LOGICO)) {
-	                    document.getElementById('result').value += "O logico " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.NO_LOGICO)) {
-	                    document.getElementById('result').value += "No logico " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.ASIGNACION)) {
-	                    document.getElementById('result').value += "Asignación " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.CADENA)) {
-	                    document.getElementById('result').value += "Cadena " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.ERROR)) {
-	                    document.getElementById('result').value += "Error " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.VAR)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.IF)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.WHILE)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.FOR)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.CONST)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.LET)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.CLASS)) {
-	                    document.getElementById('result').value += "Palabra reservada " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.ABRIR_CORCHETES)) {
-	                    document.getElementById('result').value += "Corchete " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.CERRAR_CORCHETES)) {
-	                    document.getElementById('result').value += "Corchete " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.IDENTIFICADOR)) {
-	                    document.getElementById('result').value += "variable " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.PUNTO_COMA)) {
-	                    document.getElementById('result').value += "punto y coma " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.COMA)) {
-	                    document.getElementById('result').value += "Coma " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.FALSE)) {
-	                    document.getElementById('result').value += "False " + lexer.obtenerValor() + "\n";
-	                }
-	                if (lexer.match(Token_1.Token.TRUE)) {
-	                    document.getElementById('result').value += "True " + lexer.obtenerValor() + "\n";
-	                }
-	                lexer.advance();
-	            }
+	            //
+	            //        Lexer lexer = new Lexer(expresion);
+	            //        Parser parser = new Parser(lexer);
+	            //        parser.declaraciones();
+	            //
+	            var calculadora = new VM_1.VM(programa);
+	            calculadora.run();
+	            document.getElementById('result').value = "\n" + calculadora.getAnswer();
 	        }
 	        else {
 	            document.getElementById('result').value = "Digite su código";
@@ -198,10 +86,112 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
+	 * Created by duber on 10/11/16.
+	 */
+	"use strict";
+	var Lexer_1 = __webpack_require__(3);
+	var Parser_1 = __webpack_require__(5);
+	var Instruccion_1 = __webpack_require__(6);
+	var VM = (function () {
+	    function VM(programa) {
+	        var parser = new Parser_1.Parser(new Lexer_1.Lexer(programa));
+	        parser.declaraciones();
+	        this.cadenaResultado = "";
+	        this.listaInstrucciones = parser.obtenerInstrucciones();
+	        this.pilaNumeros = new Array;
+	    }
+	    VM.prototype.run = function () {
+	        var n = this.listaInstrucciones.length;
+	        var i = 0;
+	        while (i < n) {
+	            var operacion = Number(this.listaInstrucciones[i]);
+	            switch (operacion) {
+	                case Instruccion_1.Instruccion.FIN:
+	                    return;
+	                case Instruccion_1.Instruccion.PRINT:
+	                    console.log("print");
+	                    if (this.pilaNumeros.length > 0) {
+	                        var ans = this.pilaNumeros.pop();
+	                        if (Math.floor(ans) == ans) {
+	                            this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
+	                        }
+	                        else {
+	                            this.cadenaResultado += "ans = " + ans + "\n";
+	                        }
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.POP:
+	                    console.log("pop");
+	                    if (this.pilaNumeros.length > 0) {
+	                        this.pilaNumeros.pop();
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.SUMA:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+	                            this.pilaNumeros.push(Math.floor(numero1)
+	                                + Math.floor(numero2));
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(numero1 + numero2);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.RESTA:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+	                            this.pilaNumeros.push(Math.floor(numero1)
+	                                - Math.floor(numero2));
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(numero1 - numero2);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO:
+	                    ++i;
+	                    //System.out.println("ENTERO: " + listaInstrucciones.get(i));
+	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
+	                    break;
+	                case Instruccion_1.Instruccion.PUSH_NUMERO_REAL:
+	                    ++i;
+	                    this.pilaNumeros.push(Math.round(this.listaInstrucciones[i]));
+	                    break;
+	                default:
+	                    return;
+	            }
+	            ++i;
+	        }
+	    };
+	    VM.prototype.getAnswer = function () {
+	        return this.cadenaResultado;
+	    };
+	    return VM;
+	}());
+	exports.VM = VM;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
 	 * Created by duber on 12/09/16.
 	 */
 	"use strict";
-	var Token_1 = __webpack_require__(3);
+	var Token_1 = __webpack_require__(4);
 	var Lexer = (function () {
 	    function Lexer(expresion) {
 	        this.establecer(expresion);
@@ -494,7 +484,7 @@
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -552,6 +542,146 @@
 	//
 	Token.VALOR_ENTERO = 100;
 	Token.VALOR_REAL = 101;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by duber on 10/11/16.
+	 */
+	"use strict";
+	var Token_1 = __webpack_require__(4);
+	var Instruccion_1 = __webpack_require__(6);
+	var Parser = (function () {
+	    function Parser(lexer) {
+	        this.lexer = lexer;
+	        this.listaInstrucciones = new Array;
+	    }
+	    Parser.prototype.declaraciones = function () {
+	        while (!this.lexer.match(Token_1.Token.FIN_ARCHIVO)) {
+	            this.expresiones();
+	            this.lexer.advance();
+	        }
+	        this.listaInstrucciones.push(Instruccion_1.Instruccion.FIN);
+	        //System.out.println("Fin!");
+	    };
+	    Parser.prototype.expresiones = function () {
+	        this.expresion();
+	        if (this.lexer.match(Token_1.Token.COMA)) {
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PRINT);
+	            this.lexer.advance();
+	            this.expresiones();
+	        }
+	        else if (this.lexer.match(Token_1.Token.PUNTO_COMA)) {
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.POP);
+	            this.lexer.advance();
+	            this.expresiones();
+	        }
+	        else {
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PRINT);
+	        }
+	    };
+	    Parser.prototype.termino = function () {
+	        if (this.lexer.match(Token_1.Token.VALOR_ENTERO)) {
+	            var entero = this.lexer.obtenerEntero();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO);
+	            this.listaInstrucciones.push(entero);
+	            this.lexer.advance();
+	        }
+	        else if (this.lexer.match(Token_1.Token.VALOR_REAL)) {
+	            var real = this.lexer.obtenerReal();
+	            //System.out.println("real: " + real);
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_NUMERO_REAL);
+	            this.listaInstrucciones.push(real);
+	            this.lexer.advance();
+	        }
+	        else if (this.lexer.match(Token_1.Token.ABRIR_PARENTESIS)) {
+	            console.log('(');
+	            this.lexer.advance();
+	            this.expresion();
+	            if (!this.lexer.match(Token_1.Token.CERRAR_PARENTESIS)) {
+	                console.log("Error: Se esperaba )");
+	                return;
+	            }
+	            console.log(")");
+	            this.lexer.advance();
+	        }
+	    };
+	    Parser.prototype.expresion = function () {
+	        this.termino();
+	        this.expresionPrima();
+	    };
+	    Parser.prototype.expresionPrima = function () {
+	        if (this.lexer.match(Token_1.Token.SUMA)) {
+	            this.lexer.advance();
+	            this.termino();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.SUMA);
+	            this.expresionPrima();
+	        }
+	        if (this.lexer.match(Token_1.Token.RESTA)) {
+	            this.lexer.advance();
+	            this.termino();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.RESTA);
+	            this.expresionPrima();
+	        }
+	    };
+	    Parser.prototype.obtenerInstrucciones = function () {
+	        return this.listaInstrucciones;
+	    };
+	    return Parser;
+	}());
+	exports.Parser = Parser;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+	/**
+	 * Created by duber on 10/11/16.
+	 */
+	var Instruccion = (function () {
+	    function Instruccion() {
+	    }
+	    return Instruccion;
+	}());
+	exports.Instruccion = Instruccion;
+	Instruccion.FIN = -1;
+	//
+	Instruccion.SUMA = 1;
+	Instruccion.RESTA = 2;
+	Instruccion.MULTIPLICACION = 3;
+	Instruccion.DIVISION = 4;
+	Instruccion.POTENCIA = 5;
+	Instruccion.MODULO = 6;
+	Instruccion.DIVISION_ENTERA = 7;
+	Instruccion.MENOR_QUE = 11;
+	Instruccion.MAYOR_QUE = 12;
+	Instruccion.IGUAL = 13;
+	Instruccion.MENOR_IGUAL_QUE = 14;
+	Instruccion.MAYOR_IGUAL_QUE = 15;
+	Instruccion.DIFERENTE = 16;
+	//
+	Instruccion.Y_LOGICO = 17;
+	Instruccion.O_LOGICO = 18;
+	Instruccion.NO_LOGICO = 19;
+	//
+	Instruccion.PUSH_NUMERO_ENTERO = 100;
+	Instruccion.PUSH_NUMERO_REAL = 101;
+	Instruccion.PRINT = 200;
+	Instruccion.POP = 201;
+	// Funciones
+	Instruccion.RAIZ_CUADRADA = 400;
+	Instruccion.VALOR_ABSOLUTO = 401;
+	Instruccion.LOGARITMO_NATURAL = 402;
+	Instruccion.EXPONENCIAL = 403;
+	Instruccion.SENO = 404;
+	Instruccion.COSENO = 405;
+	Instruccion.TANGENTE = 406;
+	Instruccion.ALEATORIO = 407;
 
 
 /***/ }
