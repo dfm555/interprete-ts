@@ -98,8 +98,7 @@
 	        parser.declaraciones();
 	        this.cadenaResultado = "";
 	        this.listaInstrucciones = parser.obtenerInstrucciones();
-	        //noinspection JSAnnotator
-				this.pilaNumeros = new Array;
+	        this.pilaNumeros = new Array;
 	    }
 	    VM.prototype.run = function () {
 	        var n = this.listaInstrucciones.length;
@@ -110,7 +109,6 @@
 	                case Instruccion_1.Instruccion.FIN:
 	                    return;
 	                case Instruccion_1.Instruccion.PRINT:
-	                    console.log("print");
 	                    if (this.pilaNumeros.length > 0) {
 	                        var ans = this.pilaNumeros.pop();
 	                        if (Math.floor(ans) == ans) {
@@ -122,7 +120,6 @@
 	                    }
 	                    break;
 	                case Instruccion_1.Instruccion.POP:
-	                    console.log("pop");
 	                    if (this.pilaNumeros.length > 0) {
 	                        this.pilaNumeros.pop();
 	                    }
@@ -131,6 +128,7 @@
 	                    if (this.pilaNumeros.length > 1) {
 	                        var numero2 = this.pilaNumeros.pop();
 	                        var numero1 = this.pilaNumeros.pop();
+	                        console.log(numero2, numero1);
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            this.pilaNumeros.push(Math.floor(numero1)
@@ -163,12 +161,11 @@
 	                    break;
 	                case Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO:
 	                    ++i;
-	                    //System.out.println("ENTERO: " + listaInstrucciones.get(i));
 	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
 	                    break;
 	                case Instruccion_1.Instruccion.PUSH_NUMERO_REAL:
 	                    ++i;
-	                    this.pilaNumeros.push(Math.round(this.listaInstrucciones[i]));
+	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
 	                    break;
 	                default:
 	                    return;
@@ -566,7 +563,6 @@
 	            this.lexer.advance();
 	        }
 	        this.listaInstrucciones.push(Instruccion_1.Instruccion.FIN);
-	        //System.out.println("Fin!");
 	    };
 	    Parser.prototype.expresiones = function () {
 	        this.expresion();
@@ -593,20 +589,17 @@
 	        }
 	        else if (this.lexer.match(Token_1.Token.VALOR_REAL)) {
 	            var real = this.lexer.obtenerReal();
-	            //System.out.println("real: " + real);
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_NUMERO_REAL);
 	            this.listaInstrucciones.push(real);
 	            this.lexer.advance();
 	        }
 	        else if (this.lexer.match(Token_1.Token.ABRIR_PARENTESIS)) {
-	            console.log('(');
 	            this.lexer.advance();
 	            this.expresion();
 	            if (!this.lexer.match(Token_1.Token.CERRAR_PARENTESIS)) {
 	                console.log("Error: Se esperaba )");
 	                return;
 	            }
-	            console.log(")");
 	            this.lexer.advance();
 	        }
 	    };
