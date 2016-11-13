@@ -5,22 +5,25 @@
 import {Lexer} from './Lexer';
 import {Token} from './Token';
 import {Instruccion} from './Instruccion';
+import {Variable} from './Variable';
 
 class Parser {
 
 
     private lexer:Lexer;
     private listaInstrucciones:Array<number>;
+    private tablaDeSimbolos:Array<Variable>;
 
     constructor(lexer:Lexer) {
         this.lexer = lexer;
         this.listaInstrucciones = new Array;
+        this.tablaDeSimbolos = new Array;
     }
 
     declaraciones():void {
         while (!this.lexer.match(Token.FIN_ARCHIVO)) {
+            this.asignacion();
             this.expresiones();
-            this.lexer.advance();
         }
 
         this.listaInstrucciones.push(Instruccion.FIN);
@@ -89,8 +92,38 @@ class Parser {
         }
     }
 
+    asignacion():void {
+        if(this.lexer.match(Token.IDENTIFICADOR) && this.lexer.nextTokenIs(Token.ASIGNACION)){
+            let cadena:string = this.lexer.obtenerValor();
+
+            let id:Variable = new Variable( cadena );
+            if( !(id.contains(this.tablaDeSimbolos)) ){
+                this.tablaDeSimbolos.push(id);
+            }
+
+            this.lexer.advance();
+            this.lexer.advance();
+
+            this.expresion();
+
+            if(!this.lexer.match(Token.PUNTO_COMA)){
+                console.log("Error: Se esperaba ; en la instrucción de asignación");
+                return;
+            }
+            this.lexer.advance();
+
+            this.listaInstrucciones.push(Instruccion.ASIGNACION);
+            this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
+
+        }
+    }
+
     obtenerInstrucciones():Array<number> {
         return this.listaInstrucciones;
+    }
+
+   obtenerTablaDeSimbolos():Array<Variable> {
+        return this.tablaDeSimbolos;
     }
 }
 
