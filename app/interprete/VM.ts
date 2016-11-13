@@ -5,12 +5,14 @@
 import {Lexer} from './Lexer';
 import {Parser} from './Parser';
 import {Instruccion} from './Instruccion';
+import {Variable} from './Variable';
 
 
 class VM{
     private listaInstrucciones:Array<number>;
     private pilaNumeros:Array<number>;
     private cadenaResultado:string;
+    private tablaDeSimpbolos:Array<Variable>;
 
     constructor(programa:string) {
         let parser: Parser = new Parser(new Lexer(programa));
@@ -18,6 +20,7 @@ class VM{
         this.cadenaResultado = "";
 
         this.listaInstrucciones = parser.obtenerInstrucciones();
+        this.tablaDeSimpbolos = parser.obtenerTablaDeSimbolos();
         this.pilaNumeros = new Array;
     }
 
@@ -50,7 +53,6 @@ class VM{
                     if (this.pilaNumeros.length > 1) {
                         let numero2:number = this.pilaNumeros.pop();
                         let numero1:number = this.pilaNumeros.pop();
-                        console.log( numero2, numero1 );
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
@@ -85,6 +87,23 @@ class VM{
                 case Instruccion.PUSH_NUMERO_REAL:
                     ++i;
                     this.pilaNumeros.push(this.listaInstrucciones[i]);
+                    break;
+                case Instruccion.ASIGNACION:
+                    ++i;
+                    let index:number = this.listaInstrucciones[i];
+                    if (this.pilaNumeros.length > 0) {
+                        let numero1:number = this.pilaNumeros.pop();
+
+                        if (numero1 % 1 === 0) {
+                            this.tablaDeSimpbolos[index].tipo = "entero";
+                            this.tablaDeSimpbolos[index].valor = " "+numero1;
+                        } else {
+                           this.tablaDeSimpbolos[index].tipo = "real";
+                           this.tablaDeSimpbolos[index].valor = " "+numero1;
+                        }
+
+                        console.log("\n"+ this.tablaDeSimpbolos[index].toString());
+                    }
                     break;
                 default:
                     return;

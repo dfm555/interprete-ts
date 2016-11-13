@@ -60,11 +60,6 @@
 	    App.init = function () {
 	        var programa = document.getElementById('code').value;
 	        if (programa !== '') {
-	            //
-	            //        Lexer lexer = new Lexer(expresion);
-	            //        Parser parser = new Parser(lexer);
-	            //        parser.declaraciones();
-	            //
 	            var calculadora = new VM_1.VM(programa);
 	            calculadora.run();
 	            document.getElementById('result').value = "\n" + calculadora.getAnswer();
@@ -98,6 +93,7 @@
 	        parser.declaraciones();
 	        this.cadenaResultado = "";
 	        this.listaInstrucciones = parser.obtenerInstrucciones();
+	        this.tablaDeSimpbolos = parser.obtenerTablaDeSimbolos();
 	        this.pilaNumeros = new Array;
 	    }
 	    VM.prototype.run = function () {
@@ -128,7 +124,6 @@
 	                    if (this.pilaNumeros.length > 1) {
 	                        var numero2 = this.pilaNumeros.pop();
 	                        var numero1 = this.pilaNumeros.pop();
-	                        console.log(numero2, numero1);
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            this.pilaNumeros.push(Math.floor(numero1)
@@ -166,6 +161,22 @@
 	                case Instruccion_1.Instruccion.PUSH_NUMERO_REAL:
 	                    ++i;
 	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
+	                    break;
+	                case Instruccion_1.Instruccion.ASIGNACION:
+	                    ++i;
+	                    var index = this.listaInstrucciones[i];
+	                    if (this.pilaNumeros.length > 0) {
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1 % 1 === 0) {
+	                            this.tablaDeSimpbolos[index].tipo = "entero";
+	                            this.tablaDeSimpbolos[index].valor = " " + numero1;
+	                        }
+	                        else {
+	                            this.tablaDeSimpbolos[index].tipo = "real";
+	                            this.tablaDeSimpbolos[index].valor = " " + numero1;
+	                        }
+	                        console.log("\n" + this.tablaDeSimpbolos[index].toString());
+	                    }
 	                    break;
 	                default:
 	                    return;
@@ -445,6 +456,15 @@
 	                        }
 	                        return Token_1.Token.VALOR_ENTERO;
 	                    }
+	                    else if (this.isAlfabeto(caracter)) {
+	                        while (this.posicion + this.longitud < n
+	                            && (this.isDigit(this.expresion.charAt(this.posicion
+	                                + this.longitud)) || this.isAlfabeto(this.expresion.charAt(this.posicion
+	                                + this.longitud)))) {
+	                            ++this.longitud;
+	                        }
+	                        return Token_1.Token.IDENTIFICADOR;
+	                    }
 	            }
 	        }
 	        return Token_1.Token.FIN_ARCHIVO;
@@ -457,6 +477,15 @@
 	            this.nuevoToken = this.getToken();
 	        }
 	        return token == this.nuevoToken;
+	    };
+	    Lexer.prototype.nextTokenIs = function (token) {
+	        var auxiliarPosicion = this.posicion;
+	        var auxiliarLongitud = this.longitud;
+	        this.advance();
+	        var ans = this.match(token);
+	        this.posicion = auxiliarPosicion;
+	        this.longitud = auxiliarLongitud;
+	        return ans;
 	    };
 	    Lexer.prototype.obtenerEntero = function () {
 	        return Number(this.expresion.substring(this.posicion, this.posicion
@@ -552,15 +581,17 @@
 	"use strict";
 	var Token_1 = __webpack_require__(4);
 	var Instruccion_1 = __webpack_require__(6);
+	var Variable_1 = __webpack_require__(7);
 	var Parser = (function () {
 	    function Parser(lexer) {
 	        this.lexer = lexer;
 	        this.listaInstrucciones = new Array;
+	        this.tablaDeSimbolos = new Array;
 	    }
 	    Parser.prototype.declaraciones = function () {
 	        while (!this.lexer.match(Token_1.Token.FIN_ARCHIVO)) {
+	            this.asignacion();
 	            this.expresiones();
-	            this.lexer.advance();
 	        }
 	        this.listaInstrucciones.push(Instruccion_1.Instruccion.FIN);
 	    };
@@ -621,8 +652,30 @@
 	            this.expresionPrima();
 	        }
 	    };
+	    Parser.prototype.asignacion = function () {
+	        if (this.lexer.match(Token_1.Token.IDENTIFICADOR) && this.lexer.nextTokenIs(Token_1.Token.ASIGNACION)) {
+	            var cadena = this.lexer.obtenerValor();
+	            var id = new Variable_1.Variable(cadena);
+	            if (!(id.contains(this.tablaDeSimbolos))) {
+	                this.tablaDeSimbolos.push(id);
+	            }
+	            this.lexer.advance();
+	            this.lexer.advance();
+	            this.expresion();
+	            if (!this.lexer.match(Token_1.Token.PUNTO_COMA)) {
+	                console.log("Error: Se esperaba ; en la instrucción de asignación");
+	                return;
+	            }
+	            this.lexer.advance();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.ASIGNACION);
+	            this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
+	        }
+	    };
 	    Parser.prototype.obtenerInstrucciones = function () {
 	        return this.listaInstrucciones;
+	    };
+	    Parser.prototype.obtenerTablaDeSimbolos = function () {
+	        return this.tablaDeSimbolos;
 	    };
 	    return Parser;
 	}());
@@ -665,6 +718,7 @@
 	//
 	Instruccion.PUSH_NUMERO_ENTERO = 100;
 	Instruccion.PUSH_NUMERO_REAL = 101;
+	Instruccion.ASIGNACION = 102;
 	Instruccion.PRINT = 200;
 	Instruccion.POP = 201;
 	// Funciones
@@ -676,6 +730,34 @@
 	Instruccion.COSENO = 405;
 	Instruccion.TANGENTE = 406;
 	Instruccion.ALEATORIO = 407;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Variable = (function () {
+	    function Variable(nombre) {
+	        this.nombre = nombre;
+	        this.tipo = '';
+	        this.valor = '';
+	    }
+	    Variable.prototype.contains = function (list) {
+	        var i;
+	        for (i = 0; i < list.length; i++) {
+	            if (list[i].nombre === this.nombre) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    };
+	    Variable.prototype.toString = function () {
+	        return "ID => " + "Nombre: " + this.nombre + ", tipo : " + this.tipo + ", valor: " + this.valor;
+	    };
+	    return Variable;
+	}());
+	exports.Variable = Variable;
 
 
 /***/ }
