@@ -25,6 +25,7 @@ class Instruccion {
     //
     static  PUSH_NUMERO_ENTERO:number = 100;
     static  PUSH_NUMERO_REAL:number = 101;
+    static  ASIGNACION:number = 102;
 
     static  PRINT:number = 200;
     static  POP:number = 201;

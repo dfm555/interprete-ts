@@ -283,10 +283,15 @@ class Lexer {
                             return Token.VALOR_REAL;
                         }
                         return Token.VALOR_ENTERO;
+                    }else if( this.isAlfabeto(caracter) ){
+                        while(this.posicion + this.longitud < n
+                            && (this.isDigit(this.expresion.charAt(this.posicion
+                            + this.longitud)) || this.isAlfabeto(this.expresion.charAt(this.posicion
+                            + this.longitud)))){
+                            ++this.longitud;
+                        }
+                        return Token.IDENTIFICADOR;
                     }
-
-                // identificadores
-
             }
         }
 
@@ -302,6 +307,19 @@ class Lexer {
         }
 
         return token == this.nuevoToken;
+    }
+
+    public nextTokenIs(token:number): boolean {
+        let auxiliarPosicion:number = this.posicion;
+        let auxiliarLongitud = this.longitud;
+
+        this.advance();
+        let ans = this.match(token);
+        
+        this.posicion = auxiliarPosicion;
+        this.longitud = auxiliarLongitud;
+
+        return ans;
     }
 
     public obtenerEntero(): number {
