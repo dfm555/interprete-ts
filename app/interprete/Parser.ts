@@ -68,27 +68,46 @@ class Parser {
                 return;
             }
             this.lexer.advance();
+        } else if (this.lexer.match(Token.IDENTIFICADOR)) {
+
         }
+        this.factorPrimo();
     }
 
     expresion():void {
         this.termino();
-        this.expresionPrima();
+        this.terminoPrimo();
     }
 
-    expresionPrima():void {
+    terminoPrimo():void {
         if (this.lexer.match(Token.SUMA)) {
             this.lexer.advance();
             this.termino();
             this.listaInstrucciones.push(Instruccion.SUMA);
-            this.expresionPrima();
+            this.terminoPrimo();
         }
 
         if (this.lexer.match(Token.RESTA)) {
             this.lexer.advance();
             this.termino();
             this.listaInstrucciones.push(Instruccion.RESTA);
-            this.expresionPrima();
+            this.terminoPrimo();
+        }
+    }
+
+    factorPrimo():void {
+        if(this.lexer.match(Token.MULTIPLICACION)){
+            this.lexer.advance();
+            this.termino();
+            this.listaInstrucciones.push(Instruccion.MULTIPLICACION);
+            this.factorPrimo();
+        }
+
+        if(this.lexer.match(Token.DIVISION)){
+            this.lexer.advance();
+            this.termino();
+            this.listaInstrucciones.push(Instruccion.DIVISION);
+            this.factorPrimo();
         }
     }
 
