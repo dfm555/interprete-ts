@@ -80,6 +80,47 @@ class VM{
                         throw new Error("Error: Falta operando.");
                     }
                     break;
+                case Instruccion.MULTIPLICACION:
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2:number = this.pilaNumeros.pop();
+                        let numero1:number = this.pilaNumeros.pop();
+
+                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+                            this.pilaNumeros.push(Math.floor(numero1)
+                                * Math.floor(numero2));
+                        } else {
+                            this.pilaNumeros.push(numero1*numero2);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.DIVISION:
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2:number = this.pilaNumeros.pop();
+                        let numero1:number = this.pilaNumeros.pop();
+
+                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+
+                            if(numero2 != 0){
+                                this.pilaNumeros.push(Math.floor(numero1)
+                                  / Math.floor(numero2));
+                            }else{
+                                throw new Error("Error: Division por cero");
+                            }
+                        } else {
+                            if(numero2 != 0){
+                                this.pilaNumeros.push(numero1 / numero2);
+                            }else{
+                                throw new Error("Error: Division por cero");
+                            }
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
                 case Instruccion.PUSH_NUMERO_ENTERO:
                     ++i;
                     this.pilaNumeros.push(this.listaInstrucciones[i]);

@@ -154,6 +154,50 @@
 	                        throw new Error("Error: Falta operando.");
 	                    }
 	                    break;
+	                case Instruccion_1.Instruccion.MULTIPLICACION:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+	                            this.pilaNumeros.push(Math.floor(numero1)
+	                                * Math.floor(numero2));
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(numero1 * numero2);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.DIVISION:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+	                            if (numero2 != 0) {
+	                                this.pilaNumeros.push(Math.floor(numero1)
+	                                    / Math.floor(numero2));
+	                            }
+	                            else {
+	                                throw new Error("Error: Division por cero");
+	                            }
+	                        }
+	                        else {
+	                            if (numero2 != 0) {
+	                                this.pilaNumeros.push(numero1 / numero2);
+	                            }
+	                            else {
+	                                throw new Error("Error: Division por cero");
+	                            }
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
 	                case Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO:
 	                    ++i;
 	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
@@ -633,23 +677,40 @@
 	            }
 	            this.lexer.advance();
 	        }
+	        else if (this.lexer.match(Token_1.Token.IDENTIFICADOR)) {
+	        }
+	        this.factorPrimo();
 	    };
 	    Parser.prototype.expresion = function () {
 	        this.termino();
-	        this.expresionPrima();
+	        this.terminoPrimo();
 	    };
-	    Parser.prototype.expresionPrima = function () {
+	    Parser.prototype.terminoPrimo = function () {
 	        if (this.lexer.match(Token_1.Token.SUMA)) {
 	            this.lexer.advance();
 	            this.termino();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.SUMA);
-	            this.expresionPrima();
+	            this.terminoPrimo();
 	        }
 	        if (this.lexer.match(Token_1.Token.RESTA)) {
 	            this.lexer.advance();
 	            this.termino();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.RESTA);
-	            this.expresionPrima();
+	            this.terminoPrimo();
+	        }
+	    };
+	    Parser.prototype.factorPrimo = function () {
+	        if (this.lexer.match(Token_1.Token.MULTIPLICACION)) {
+	            this.lexer.advance();
+	            this.termino();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MULTIPLICACION);
+	            this.factorPrimo();
+	        }
+	        if (this.lexer.match(Token_1.Token.DIVISION)) {
+	            this.lexer.advance();
+	            this.termino();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.DIVISION);
+	            this.factorPrimo();
 	        }
 	    };
 	    Parser.prototype.asignacion = function () {
