@@ -113,7 +113,8 @@ class Lexer {
                     this.longitud = this.longitud + 1;
                     return Token.CADENA;
                 //Palabras reservadas
-                /*case 'f':
+              case 'f':
+                  debugger
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
@@ -123,16 +124,15 @@ class Lexer {
                             }
                         }
                     }
-
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
                         this.longitud++;
-                        if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
+                        if ( this.expresion.charAt( this.posicion + this.longitud ) == 'l' ) {
                             this.longitud++;
-                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
+                            if ( this.expresion.charAt( this.posicion + this.longitud ) == 's' ) {
                                 this.longitud++;
-                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+                                if ( this.expresion.charAt( this.posicion + this.longitud ) == 'e' ) {
                                     this.longitud++;
-                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+                                    if ( (this.expresion.charAt( this.posicion + this.longitud ) == ';')) {
                                         return Token.FALSE;
                                     }
                                 }
@@ -141,9 +141,7 @@ class Lexer {
 
                         }
                     }
-
-                    break;
-                case 'v':
+              /*case 'v':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
@@ -221,7 +219,8 @@ class Lexer {
                             }
                         }
                     }
-                    break;
+                    break;*/
+              debugger
                 case 't':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
                         this.longitud++;
@@ -229,15 +228,13 @@ class Lexer {
                             this.longitud++;
                             if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
                                 this.longitud++;
-                                if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+                                if ((this.expresion.charAt(this.posicion + this.longitud) == ';')) {
                                     return Token.TRUE;
                                 }
 
                             }
                         }
                     }
-
-                    break;*/
                 //identificadores
 /*                case '@':
                     if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
