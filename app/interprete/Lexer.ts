@@ -113,7 +113,7 @@ class Lexer {
                     this.longitud = this.longitud + 1;
                     return Token.CADENA;
                 //Palabras reservadas
-                case 'f':
+                /*case 'f':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
@@ -237,9 +237,9 @@ class Lexer {
                         }
                     }
 
-                    break;
+                    break;*/
                 //identificadores
-                case '@':
+/*                case '@':
                     if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
 
                         while (this.posicion + this.longitud < n
@@ -261,7 +261,7 @@ class Lexer {
                             return Token.IDENTIFICADOR;
                         }
                     }
-                    break;
+                    break;*/
 
                 default:
                     if (this.isDigit(caracter)) {

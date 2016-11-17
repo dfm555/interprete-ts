@@ -9,10 +9,10 @@ import {Variable} from './Variable';
 
 
 class VM{
-    private listaInstrucciones:Array<number>;
-    private pilaNumeros:Array<number>;
+    private listaInstrucciones:Array<Object>;
+    private pilaNumeros:Array<Object>;
     private cadenaResultado:string;
-    private tablaDeSimpbolos:Array<Variable>;
+    private tablaDeSimbolos:Array<Variable>;
 
     constructor(programa:string) {
         let parser: Parser = new Parser(new Lexer(programa));
@@ -20,7 +20,7 @@ class VM{
         this.cadenaResultado = "";
 
         this.listaInstrucciones = parser.obtenerInstrucciones();
-        this.tablaDeSimpbolos = parser.obtenerTablaDeSimbolos();
+        this.tablaDeSimbolos = parser.obtenerTablaDeSimbolos();
         this.pilaNumeros = new Array;
     }
 
@@ -35,8 +35,10 @@ class VM{
                 case Instruccion.FIN:
                     return;
                 case Instruccion.PRINT:
+
                     if (this.pilaNumeros.length > 0) {
-                        let ans:number = this.pilaNumeros.pop();
+
+                        let ans:number = Number(this.pilaNumeros.pop());
                         if (Math.floor(ans) == ans) {
                             this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
                         } else {
@@ -51,8 +53,9 @@ class VM{
                     break;
                 case Instruccion.SUMA:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = this.pilaNumeros.pop();
-                        let numero1:number = this.pilaNumeros.pop();
+                        let numero2:number = Number(this.pilaNumeros.pop());
+                        let numero1:number = Number(this.pilaNumeros.pop());
+
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
@@ -66,8 +69,8 @@ class VM{
                     break;
                 case Instruccion.RESTA:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = this.pilaNumeros.pop();
-                        let numero1:number = this.pilaNumeros.pop();
+                        let numero2:number = Number(this.pilaNumeros.pop());
+                        let numero1:number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
@@ -82,8 +85,8 @@ class VM{
                     break;
                 case Instruccion.MULTIPLICACION:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = this.pilaNumeros.pop();
-                        let numero1:number = this.pilaNumeros.pop();
+                        let numero2:number = Number(this.pilaNumeros.pop());
+                        let numero1:number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
@@ -98,8 +101,8 @@ class VM{
                     break;
                 case Instruccion.DIVISION:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = this.pilaNumeros.pop();
-                        let numero1:number = this.pilaNumeros.pop();
+                        let numero2:number = Number(this.pilaNumeros.pop());
+                        let numero1:number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
@@ -129,21 +132,28 @@ class VM{
                     ++i;
                     this.pilaNumeros.push(this.listaInstrucciones[i]);
                     break;
+                case Instruccion.PUSH_IDENTIFICADOR:
+                    ++i;
+                    let variable:string = this.listaInstrucciones[i].toString();
+                    let varIndex:number = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
+                    this.pilaNumeros.push(this.tablaDeSimbolos[varIndex].valor);
+                    break;
                 case Instruccion.ASIGNACION:
                     ++i;
-                    let index:number = this.listaInstrucciones[i];
+                    let index:number = Number (this.listaInstrucciones[i]);
                     if (this.pilaNumeros.length > 0) {
-                        let numero1:number = this.pilaNumeros.pop();
-
+                        let numero1:number = Number(this.pilaNumeros.pop());
+                        this.pilaNumeros.push(numero1);
                         if (numero1 % 1 === 0) {
-                            this.tablaDeSimpbolos[index].tipo = "entero";
-                            this.tablaDeSimpbolos[index].valor = " "+numero1;
+                            this.tablaDeSimbolos[index].tipo = "entero";
+                            this.tablaDeSimbolos[index].valor = " "+numero1;
                         } else {
-                           this.tablaDeSimpbolos[index].tipo = "real";
-                           this.tablaDeSimpbolos[index].valor = " "+numero1;
+                           this.tablaDeSimbolos[index].tipo = "real";
+                           this.tablaDeSimbolos[index].valor = " "+numero1;
                         }
 
-                        console.log("\n"+ this.tablaDeSimpbolos[index].toString());
+                        console.log("\n"+ this.tablaDeSimbolos[index].toString());
+                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
                     }
                     break;
                 default:
@@ -156,6 +166,13 @@ class VM{
 
     getAnswer():string {
         return this.cadenaResultado;
+    }
+
+    arrayObjectIndexOf(myArray, searchTerm, property):number {
+        for(let i = 0, len = myArray.length; i < len; i++) {
+            if (myArray[i][property] === searchTerm) return i;
+        }
+        return -1;
     }
 }
 

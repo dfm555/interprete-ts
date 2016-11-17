@@ -93,7 +93,7 @@
 	        parser.declaraciones();
 	        this.cadenaResultado = "";
 	        this.listaInstrucciones = parser.obtenerInstrucciones();
-	        this.tablaDeSimpbolos = parser.obtenerTablaDeSimbolos();
+	        this.tablaDeSimbolos = parser.obtenerTablaDeSimbolos();
 	        this.pilaNumeros = new Array;
 	    }
 	    VM.prototype.run = function () {
@@ -106,7 +106,7 @@
 	                    return;
 	                case Instruccion_1.Instruccion.PRINT:
 	                    if (this.pilaNumeros.length > 0) {
-	                        var ans = this.pilaNumeros.pop();
+	                        var ans = Number(this.pilaNumeros.pop());
 	                        if (Math.floor(ans) == ans) {
 	                            this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
 	                        }
@@ -122,8 +122,8 @@
 	                    break;
 	                case Instruccion_1.Instruccion.SUMA:
 	                    if (this.pilaNumeros.length > 1) {
-	                        var numero2 = this.pilaNumeros.pop();
-	                        var numero1 = this.pilaNumeros.pop();
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            this.pilaNumeros.push(Math.floor(numero1)
@@ -139,8 +139,8 @@
 	                    break;
 	                case Instruccion_1.Instruccion.RESTA:
 	                    if (this.pilaNumeros.length > 1) {
-	                        var numero2 = this.pilaNumeros.pop();
-	                        var numero1 = this.pilaNumeros.pop();
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            this.pilaNumeros.push(Math.floor(numero1)
@@ -156,8 +156,8 @@
 	                    break;
 	                case Instruccion_1.Instruccion.MULTIPLICACION:
 	                    if (this.pilaNumeros.length > 1) {
-	                        var numero2 = this.pilaNumeros.pop();
-	                        var numero1 = this.pilaNumeros.pop();
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            this.pilaNumeros.push(Math.floor(numero1)
@@ -173,8 +173,8 @@
 	                    break;
 	                case Instruccion_1.Instruccion.DIVISION:
 	                    if (this.pilaNumeros.length > 1) {
-	                        var numero2 = this.pilaNumeros.pop();
-	                        var numero1 = this.pilaNumeros.pop();
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
 	                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
 	                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 	                            if (numero2 != 0) {
@@ -206,20 +206,28 @@
 	                    ++i;
 	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
 	                    break;
+	                case Instruccion_1.Instruccion.PUSH_IDENTIFICADOR:
+	                    ++i;
+	                    var variable = this.listaInstrucciones[i].toString();
+	                    var varIndex = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
+	                    this.pilaNumeros.push(this.tablaDeSimbolos[varIndex].valor);
+	                    break;
 	                case Instruccion_1.Instruccion.ASIGNACION:
 	                    ++i;
-	                    var index = this.listaInstrucciones[i];
+	                    var index = Number(this.listaInstrucciones[i]);
 	                    if (this.pilaNumeros.length > 0) {
-	                        var numero1 = this.pilaNumeros.pop();
+	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        this.pilaNumeros.push(numero1);
 	                        if (numero1 % 1 === 0) {
-	                            this.tablaDeSimpbolos[index].tipo = "entero";
-	                            this.tablaDeSimpbolos[index].valor = " " + numero1;
+	                            this.tablaDeSimbolos[index].tipo = "entero";
+	                            this.tablaDeSimbolos[index].valor = " " + numero1;
 	                        }
 	                        else {
-	                            this.tablaDeSimpbolos[index].tipo = "real";
-	                            this.tablaDeSimpbolos[index].valor = " " + numero1;
+	                            this.tablaDeSimbolos[index].tipo = "real";
+	                            this.tablaDeSimbolos[index].valor = " " + numero1;
 	                        }
-	                        console.log("\n" + this.tablaDeSimpbolos[index].toString());
+	                        console.log("\n" + this.tablaDeSimbolos[index].toString());
+	                        this.cadenaResultado += this.tablaDeSimbolos[index].toString() + "\n";
 	                    }
 	                    break;
 	                default:
@@ -230,6 +238,13 @@
 	    };
 	    VM.prototype.getAnswer = function () {
 	        return this.cadenaResultado;
+	    };
+	    VM.prototype.arrayObjectIndexOf = function (myArray, searchTerm, property) {
+	        for (var i = 0, len = myArray.length; i < len; i++) {
+	            if (myArray[i][property] === searchTerm)
+	                return i;
+	        }
+	        return -1;
 	    };
 	    return VM;
 	}());
@@ -339,16 +354,17 @@
 	                    this.longitud = this.longitud + 1;
 	                    return Token_1.Token.CADENA;
 	                //Palabras reservadas
-	                case 'f':
+	                /*case 'f':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
 	                        this.longitud++;
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
 	                            this.longitud++;
 	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.FOR;
+	                                return Token.FOR;
 	                            }
 	                        }
 	                    }
+
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
 	                        this.longitud++;
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
@@ -358,12 +374,15 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.FALSE;
+	                                        return Token.FALSE;
 	                                    }
 	                                }
+
 	                            }
+
 	                        }
 	                    }
+
 	                    break;
 	                case 'v':
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
@@ -371,7 +390,7 @@
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
 	                            this.longitud++;
 	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.VAR;
+	                                return Token.VAR;
 	                            }
 	                        }
 	                    }
@@ -382,7 +401,7 @@
 	                        if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
 	                            this.longitud++;
 	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.LET;
+	                                return Token.LET;
 	                            }
 	                        }
 	                    }
@@ -391,7 +410,7 @@
 	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'f') {
 	                        this.longitud++;
 	                        if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                            return Token_1.Token.IF;
+	                            return Token.IF;
 	                        }
 	                    }
 	                    break;
@@ -405,7 +424,7 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 't') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.CONST;
+	                                        return Token.CONST;
 	                                    }
 	                                }
 	                            }
@@ -420,7 +439,7 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.CLASS;
+	                                        return Token.CLASS;
 	                                    }
 	                                }
 	                            }
@@ -437,7 +456,7 @@
 	                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                                    this.longitud++;
 	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                        return Token_1.Token.WHILE;
+	                                        return Token.WHILE;
 	                                    }
 	                                }
 	                            }
@@ -452,35 +471,38 @@
 	                            if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
 	                                this.longitud++;
 	                                if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                    return Token_1.Token.TRUE;
+	                                    return Token.TRUE;
 	                                }
+
 	                            }
 	                        }
 	                    }
-	                    break;
+
+	                    break;*/
 	                //identificadores
-	                case '@':
-	                    if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
-	                        while (this.posicion + this.longitud < n
-	                            && this.expresion.charAt(this.posicion
-	                                + this.longitud) == "_") {
-	                            this.longitud++;
-	                        }
-	                        if (!this.isAlfabeto(this.expresion.charAt(this.posicion
-	                            + this.longitud))) {
-	                            this.longitud++;
-	                            return;
-	                        }
-	                        else {
-	                            while (this.posicion + this.longitud < n && (this.isAlfabeto(this.expresion.charAt(this.posicion
-	                                + this.longitud))) || this.isDigit(this.expresion.charAt(this.posicion
-	                                + this.longitud))) {
-	                                this.longitud++;
-	                            }
-	                            return Token_1.Token.IDENTIFICADOR;
-	                        }
-	                    }
-	                    break;
+	                /*                case '@':
+	                                    if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
+	                
+	                                        while (this.posicion + this.longitud < n
+	                                            && this.expresion.charAt(this.posicion
+	                                                + this.longitud) == "_") {
+	                                            this.longitud++;
+	                                        }
+	                
+	                                        if (!this.isAlfabeto(this.expresion.charAt(this.posicion
+	                                            + this.longitud))) {
+	                                            this.longitud++;
+	                                            return;
+	                                        } else {
+	                                            while (this.posicion + this.longitud < n && (this.isAlfabeto(this.expresion.charAt(this.posicion
+	                                                + this.longitud))) || this.isDigit(this.expresion.charAt(this.posicion
+	                                                    + this.longitud))) {
+	                                                this.longitud++;
+	                                            }
+	                                            return Token.IDENTIFICADOR;
+	                                        }
+	                                    }
+	                                    break;*/
 	                default:
 	                    if (this.isDigit(caracter)) {
 	                        while (this.posicion + this.longitud < n
@@ -634,7 +656,7 @@
 	    }
 	    Parser.prototype.declaraciones = function () {
 	        while (!this.lexer.match(Token_1.Token.FIN_ARCHIVO)) {
-	            this.asignacion();
+	            this.asignaciones();
 	            this.expresiones();
 	        }
 	        this.listaInstrucciones.push(Instruccion_1.Instruccion.FIN);
@@ -678,6 +700,10 @@
 	            this.lexer.advance();
 	        }
 	        else if (this.lexer.match(Token_1.Token.IDENTIFICADOR)) {
+	            var cadena = this.lexer.obtenerValor();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_IDENTIFICADOR);
+	            this.listaInstrucciones.push(cadena);
+	            this.lexer.advance();
 	        }
 	        this.factorPrimo();
 	    };
@@ -713,24 +739,29 @@
 	            this.factorPrimo();
 	        }
 	    };
-	    Parser.prototype.asignacion = function () {
+	    Parser.prototype.asignaciones = function () {
 	        if (this.lexer.match(Token_1.Token.IDENTIFICADOR) && this.lexer.nextTokenIs(Token_1.Token.ASIGNACION)) {
-	            var cadena = this.lexer.obtenerValor();
-	            var id = new Variable_1.Variable(cadena);
-	            if (!(id.contains(this.tablaDeSimbolos))) {
-	                this.tablaDeSimbolos.push(id);
-	            }
-	            this.lexer.advance();
-	            this.lexer.advance();
-	            this.expresion();
+	            this.asignacion();
 	            if (!this.lexer.match(Token_1.Token.PUNTO_COMA)) {
 	                console.log("Error: Se esperaba ; en la instrucción de asignación");
 	                return;
 	            }
 	            this.lexer.advance();
-	            this.listaInstrucciones.push(Instruccion_1.Instruccion.ASIGNACION);
-	            this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
+	            this.asignaciones();
 	        }
+	    };
+	    Parser.prototype.asignacion = function () {
+	        var cadena = this.lexer.obtenerValor();
+	        var id = new Variable_1.Variable(cadena);
+	        if (!(id.contains(this.tablaDeSimbolos))) {
+	            this.tablaDeSimbolos.push(id);
+	        }
+	        this.lexer.advance();
+	        this.lexer.advance();
+	        this.asignaciones();
+	        this.expresion();
+	        this.listaInstrucciones.push(Instruccion_1.Instruccion.ASIGNACION);
+	        this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
 	    };
 	    Parser.prototype.obtenerInstrucciones = function () {
 	        return this.listaInstrucciones;
@@ -779,7 +810,8 @@
 	//
 	Instruccion.PUSH_NUMERO_ENTERO = 100;
 	Instruccion.PUSH_NUMERO_REAL = 101;
-	Instruccion.ASIGNACION = 102;
+	Instruccion.PUSH_IDENTIFICADOR = 102;
+	Instruccion.ASIGNACION = 103;
 	Instruccion.PRINT = 200;
 	Instruccion.POP = 201;
 	// Funciones
