@@ -27,7 +27,8 @@ class Instruccion {
     static  PUSH_NUMERO_REAL:number = 101;
     static  PUSH_IDENTIFICADOR:number = 102;
     static  PUSH_VALOR_LOGICO:number = 103;
-    static  ASIGNACION:number = 104;
+    static  PUSH_CADENA:number = 104;
+    static  ASIGNACION:number = 105;
 
 
     static  PRINT:number = 200;

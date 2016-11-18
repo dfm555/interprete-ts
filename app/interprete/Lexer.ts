@@ -111,10 +111,14 @@ class Lexer {
                         return Token.ERROR;
                     }
                     this.longitud = this.longitud + 1;
-                    return Token.CADENA;
+                    if(this.expresion.charAt(this.posicion
+                        + this.longitud) == ';'){
+                            
+                            return Token.CADENA;
+                    }
+
                 //Palabras reservadas
               case 'f':
-                  debugger
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
@@ -220,7 +224,6 @@ class Lexer {
                         }
                     }
                     break;*/
-              debugger
                 case 't':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
                         this.longitud++;

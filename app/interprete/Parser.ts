@@ -144,6 +144,8 @@ class Parser {
 
     this.valoresLogicos();
 
+    this.cadenas();
+
     this.listaInstrucciones.push( Instruccion.ASIGNACION );
     this.listaInstrucciones.push( this.tablaDeSimbolos.indexOf( id ) );
 
@@ -163,6 +165,15 @@ class Parser {
       this.listaInstrucciones.push( valorTrue );
       this.lexer.advance();
     }
+  }
+
+  cadenas():void{
+  if ( this.lexer.match( Token.CADENA ) ) {
+      let cadena: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push( Instruccion.PUSH_CADENA );
+      this.listaInstrucciones.push( cadena );
+      this.lexer.advance();
+    } 
   }
 
 

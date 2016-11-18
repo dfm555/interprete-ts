@@ -146,6 +146,10 @@ class VM{
                     ++i;
                     this.pilaValoresLogicos.push( this.listaInstrucciones[i]);
                     break;
+                case Instruccion.PUSH_CADENA:
+                    ++i;
+                    this.pilaCadenas.push( this.listaInstrucciones[i]);
+                    break;
                 case Instruccion.ASIGNACION:
                     ++i;
                     let index:number = Number (this.listaInstrucciones[i]);
@@ -160,16 +164,23 @@ class VM{
                            this.tablaDeSimbolos[index].valor = " "+numero1;
                         }
 
-                        console.log("\n"+ this.tablaDeSimbolos[index].toString());
-                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
-                    }else if(this.pilaValoresLogicos.length > 0){
+                    }
+                    if(this.pilaValoresLogicos.length > 0){
                         let valor:string = this.pilaValoresLogicos.pop().toString();
                         this.tablaDeSimbolos[index].tipo = "logico";
                         this.tablaDeSimbolos[index].valor = " "+valor;
-
-                        console.log("\n"+ this.tablaDeSimbolos[index].toString());
-                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
                     }
+
+                    if(this.pilaCadenas.length > 0){
+                        let cadena:string = this.pilaCadenas.pop().toString();
+                        this.tablaDeSimbolos[index].tipo = "cadena";
+                        this.tablaDeSimbolos[index].valor = " "+cadena;
+                    }
+                    
+
+                    console.log("\n"+ this.tablaDeSimbolos[index].toString());
+                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
+          
                     break;
                 default:
                     return;
