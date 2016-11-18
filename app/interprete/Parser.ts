@@ -69,7 +69,7 @@ class Parser {
       }
       this.lexer.advance();
     } else if ( this.lexer.match( Token.IDENTIFICADOR ) ) {
-      let cadena = this.lexer.obtenerValor();
+      let cadena:string = this.lexer.obtenerValor();
       this.listaInstrucciones.push(Instruccion.PUSH_IDENTIFICADOR);
       this.listaInstrucciones.push(cadena);
       this.lexer.advance();
@@ -142,11 +142,40 @@ class Parser {
 
     this.expresion();
 
+    this.valoresLogicos();
+
+    this.cadenas();
 
     this.listaInstrucciones.push( Instruccion.ASIGNACION );
     this.listaInstrucciones.push( this.tablaDeSimbolos.indexOf( id ) );
 
   }
+
+  valoresLogicos():void{
+    if ( this.lexer.match( Token.FALSE ) ) {
+      let valorFalse: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push( Instruccion.PUSH_VALOR_LOGICO );
+      this.listaInstrucciones.push( valorFalse );
+      this.lexer.advance();
+
+    } else if ( this.lexer.match( Token.TRUE ) ) {
+
+      let valorTrue: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push( Instruccion.PUSH_VALOR_LOGICO );
+      this.listaInstrucciones.push( valorTrue );
+      this.lexer.advance();
+    }
+  }
+
+  cadenas():void{
+  if ( this.lexer.match( Token.CADENA ) ) {
+      let cadena: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push( Instruccion.PUSH_CADENA );
+      this.listaInstrucciones.push( cadena );
+      this.lexer.advance();
+    } 
+  }
+
 
 
   obtenerInstrucciones(): Array<Object> {

@@ -11,6 +11,8 @@ import {Variable} from './Variable';
 class VM{
     private listaInstrucciones:Array<Object>;
     private pilaNumeros:Array<Object>;
+    private pilaCadenas: Array<Object>;
+    private pilaValoresLogicos: Array<Object>;
     private cadenaResultado:string;
     private tablaDeSimbolos:Array<Variable>;
 
@@ -22,6 +24,8 @@ class VM{
         this.listaInstrucciones = parser.obtenerInstrucciones();
         this.tablaDeSimbolos = parser.obtenerTablaDeSimbolos();
         this.pilaNumeros = new Array;
+        this.pilaCadenas = new Array;
+        this.pilaValoresLogicos = new Array;
     }
 
     run():void{
@@ -138,6 +142,14 @@ class VM{
                     let varIndex:number = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
                     this.pilaNumeros.push(this.tablaDeSimbolos[varIndex].valor);
                     break;
+                case Instruccion.PUSH_VALOR_LOGICO:
+                    ++i;
+                    this.pilaValoresLogicos.push( this.listaInstrucciones[i]);
+                    break;
+                case Instruccion.PUSH_CADENA:
+                    ++i;
+                    this.pilaCadenas.push( this.listaInstrucciones[i]);
+                    break;
                 case Instruccion.ASIGNACION:
                     ++i;
                     let index:number = Number (this.listaInstrucciones[i]);
@@ -152,9 +164,23 @@ class VM{
                            this.tablaDeSimbolos[index].valor = " "+numero1;
                         }
 
-                        console.log("\n"+ this.tablaDeSimbolos[index].toString());
-                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
                     }
+                    if(this.pilaValoresLogicos.length > 0){
+                        let valor:string = this.pilaValoresLogicos.pop().toString();
+                        this.tablaDeSimbolos[index].tipo = "logico";
+                        this.tablaDeSimbolos[index].valor = " "+valor;
+                    }
+
+                    if(this.pilaCadenas.length > 0){
+                        let cadena:string = this.pilaCadenas.pop().toString();
+                        this.tablaDeSimbolos[index].tipo = "cadena";
+                        this.tablaDeSimbolos[index].valor = " "+cadena;
+                    }
+                    
+
+                    console.log("\n"+ this.tablaDeSimbolos[index].toString());
+                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
+          
                     break;
                 default:
                     return;
