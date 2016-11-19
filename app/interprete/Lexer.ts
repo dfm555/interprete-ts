@@ -3,6 +3,7 @@
  */
 
 import {Token} from "./Token";
+import { KeyWords } from './KeyWords';
 
 class Lexer {
 
@@ -10,9 +11,14 @@ class Lexer {
     private posicion: number;
     private longitud: number;
     private nuevoToken: number;
+    private palabrasReservadas: KeyWords<Token>;
 
     constructor(expresion: string) {
         this.establecer(expresion);
+        this.palabrasReservadas = new KeyWords<Token>();
+        this.palabrasReservadas.Add('if', Token.IF);
+        this.palabrasReservadas.Add('false', Token.FALSE);
+        this.palabrasReservadas.Add('true', Token.TRUE);
     }
 
     public establecer(expresion: string): void {
@@ -118,7 +124,7 @@ class Lexer {
                     }
 
                 //Palabras reservadas
-              case 'f':
+              /*case 'f':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
                         this.longitud++;
                         if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
@@ -135,10 +141,10 @@ class Lexer {
                             if ( this.expresion.charAt( this.posicion + this.longitud ) == 's' ) {
                                 this.longitud++;
                                 if ( this.expresion.charAt( this.posicion + this.longitud ) == 'e' ) {
-                                    this.longitud++;
-                                    if ( (this.expresion.charAt( this.posicion + this.longitud ) == ';')) {
+                                   // this.longitud++;
+                                    //if ( (this.expresion.charAt( this.posicion + this.longitud ) == ';')) {
                                         return Token.FALSE;
-                                    }
+                                    //}
                                 }
 
                             }
@@ -223,7 +229,7 @@ class Lexer {
                             }
                         }
                     }
-                    break;*/
+                    break;
                 case 't':
                     if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
                         this.longitud++;
@@ -290,7 +296,13 @@ class Lexer {
                             + this.longitud)))){
                             ++this.longitud;
                         }
-                        return Token.IDENTIFICADOR;
+                        let cadena:string = this.obtenerValor();
+                        if(!this.palabrasReservadas.ContainsKey(cadena)){
+                            return Token.IDENTIFICADOR;
+                        }else{
+                            return  Number(this.palabrasReservadas.Item(cadena));
+                        }
+
                     }
             }
         }

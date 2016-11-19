@@ -2,21 +2,19 @@
  * Created by duber on 10/11/16.
  */
 
-import {Lexer} from './Lexer';
-import {Parser} from './Parser';
-import {Instruccion} from './Instruccion';
-import {Variable} from './Variable';
+import { Lexer } from './Lexer';
+import { Parser } from './Parser';
+import { Instruccion } from './Instruccion';
+import { Variable } from './Variable';
 
 
-class VM{
-    private listaInstrucciones:Array<Object>;
-    private pilaNumeros:Array<Object>;
-    private pilaCadenas: Array<Object>;
-    private pilaValoresLogicos: Array<Object>;
-    private cadenaResultado:string;
-    private tablaDeSimbolos:Array<Variable>;
+class VM {
+    private listaInstrucciones: Array<Object>;
+    private pilaNumeros: Array<Object>;
+    private cadenaResultado: string;
+    private tablaDeSimbolos: Array<Variable>;
 
-    constructor(programa:string) {
+    constructor(programa: string) {
         let parser: Parser = new Parser(new Lexer(programa));
         parser.declaraciones();
         this.cadenaResultado = "";
@@ -24,16 +22,14 @@ class VM{
         this.listaInstrucciones = parser.obtenerInstrucciones();
         this.tablaDeSimbolos = parser.obtenerTablaDeSimbolos();
         this.pilaNumeros = new Array;
-        this.pilaCadenas = new Array;
-        this.pilaValoresLogicos = new Array;
     }
 
-    run():void{
-        let n:number = this.listaInstrucciones.length;
-        let i:number = 0;
+    run(): void {
+        let n: number = this.listaInstrucciones.length;
+        let i: number = 0;
 
         while (i < n) {
-            let operacion:number = Number(this.listaInstrucciones[i]);
+            let operacion: number = Number(this.listaInstrucciones[i]);
 
             switch (operacion) {
                 case Instruccion.FIN:
@@ -42,7 +38,7 @@ class VM{
 
                     if (this.pilaNumeros.length > 0) {
 
-                        let ans:number = Number(this.pilaNumeros.pop());
+                        let ans: number = Number(this.pilaNumeros.pop());
                         if (Math.floor(ans) == ans) {
                             this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
                         } else {
@@ -57,15 +53,15 @@ class VM{
                     break;
                 case Instruccion.SUMA:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = Number(this.pilaNumeros.pop());
-                        let numero1:number = Number(this.pilaNumeros.pop());
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
                                 + Math.floor(numero2));
                         } else {
-                            this.pilaNumeros.push(numero1+numero2);
+                            this.pilaNumeros.push(numero1 + numero2);
                         }
                     } else {
                         throw new Error("Error: Falta operando.");
@@ -73,15 +69,15 @@ class VM{
                     break;
                 case Instruccion.RESTA:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = Number(this.pilaNumeros.pop());
-                        let numero1:number = Number(this.pilaNumeros.pop());
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
                                 - Math.floor(numero2));
                         } else {
-                            this.pilaNumeros.push(numero1-numero2);
+                            this.pilaNumeros.push(numero1 - numero2);
                         }
                     } else {
                         throw new Error("Error: Falta operando.");
@@ -89,15 +85,15 @@ class VM{
                     break;
                 case Instruccion.MULTIPLICACION:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = Number(this.pilaNumeros.pop());
-                        let numero1:number = Number(this.pilaNumeros.pop());
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
                                 * Math.floor(numero2));
                         } else {
-                            this.pilaNumeros.push(numero1*numero2);
+                            this.pilaNumeros.push(numero1 * numero2);
                         }
                     } else {
                         throw new Error("Error: Falta operando.");
@@ -105,22 +101,22 @@ class VM{
                     break;
                 case Instruccion.DIVISION:
                     if (this.pilaNumeros.length > 1) {
-                        let numero2:number = Number(this.pilaNumeros.pop());
-                        let numero1:number = Number(this.pilaNumeros.pop());
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
 
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
 
-                            if(numero2 != 0){
+                            if (numero2 != 0) {
                                 this.pilaNumeros.push(Math.floor(numero1)
-                                  / Math.floor(numero2));
-                            }else{
+                                    / Math.floor(numero2));
+                            } else {
                                 throw new Error("Error: Division por cero");
                             }
                         } else {
-                            if(numero2 != 0){
+                            if (numero2 != 0) {
                                 this.pilaNumeros.push(numero1 / numero2);
-                            }else{
+                            } else {
                                 throw new Error("Error: Division por cero");
                             }
                         }
@@ -138,49 +134,47 @@ class VM{
                     break;
                 case Instruccion.PUSH_IDENTIFICADOR:
                     ++i;
-                    let variable:string = this.listaInstrucciones[i].toString();
-                    let varIndex:number = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
+                    let variable: string = this.listaInstrucciones[i].toString();
+                    let varIndex: number = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
                     this.pilaNumeros.push(this.tablaDeSimbolos[varIndex].valor);
                     break;
                 case Instruccion.PUSH_VALOR_LOGICO:
                     ++i;
-                    this.pilaValoresLogicos.push( this.listaInstrucciones[i]);
+                    this.pilaNumeros.push(this.listaInstrucciones[i]);
                     break;
                 case Instruccion.PUSH_CADENA:
                     ++i;
-                    this.pilaCadenas.push( this.listaInstrucciones[i]);
+                    this.pilaNumeros.push(this.listaInstrucciones[i]);
                     break;
                 case Instruccion.ASIGNACION:
                     ++i;
-                    let index:number = Number (this.listaInstrucciones[i]);
+                    let index: number = Number(this.listaInstrucciones[i]);
                     if (this.pilaNumeros.length > 0) {
-                        let numero1:number = Number(this.pilaNumeros.pop());
+                        let numero1: Object = this.pilaNumeros.pop();
                         this.pilaNumeros.push(numero1);
-                        if (numero1 % 1 === 0) {
-                            this.tablaDeSimbolos[index].tipo = "entero";
-                            this.tablaDeSimbolos[index].valor = " "+numero1;
-                        } else {
-                           this.tablaDeSimbolos[index].tipo = "real";
-                           this.tablaDeSimbolos[index].valor = " "+numero1;
+                        if (typeof numero1 === "number") {
+                            if (Number(numero1) % 1 === 0) {
+                                this.tablaDeSimbolos[index].tipo = "entero";
+                                this.tablaDeSimbolos[index].valor = " " + numero1;
+                            } else {
+                                this.tablaDeSimbolos[index].tipo = "real";
+                                this.tablaDeSimbolos[index].valor = " " + numero1;
+                            }
+                        }else if(typeof numero1 === "string"){
+                            let cadena: string = this.pilaNumeros.pop().toString();
+                            this.tablaDeSimbolos[index].tipo = "cadena";
+                            this.tablaDeSimbolos[index].valor = " " + cadena;
+                        }else if(typeof numero1 === "boolean"){
+                            let valor: string = this.pilaNumeros.pop().toString();
+                            this.tablaDeSimbolos[index].tipo = "logico";
+                            this.tablaDeSimbolos[index].valor = " " + valor;
                         }
 
-                    }
-                    if(this.pilaValoresLogicos.length > 0){
-                        let valor:string = this.pilaValoresLogicos.pop().toString();
-                        this.tablaDeSimbolos[index].tipo = "logico";
-                        this.tablaDeSimbolos[index].valor = " "+valor;
-                    }
 
-                    if(this.pilaCadenas.length > 0){
-                        let cadena:string = this.pilaCadenas.pop().toString();
-                        this.tablaDeSimbolos[index].tipo = "cadena";
-                        this.tablaDeSimbolos[index].valor = " "+cadena;
                     }
-                    
+                    console.log("\n" + this.tablaDeSimbolos[index].toString());
+                    this.cadenaResultado += this.tablaDeSimbolos[index].toString() + "\n";
 
-                    console.log("\n"+ this.tablaDeSimbolos[index].toString());
-                        this.cadenaResultado += this.tablaDeSimbolos[index].toString()+"\n";
-          
                     break;
                 default:
                     return;
@@ -190,16 +184,16 @@ class VM{
         }
     }
 
-    getAnswer():string {
+    getAnswer(): string {
         return this.cadenaResultado;
     }
 
-    arrayObjectIndexOf(myArray, searchTerm, property):number {
-        for(let i = 0, len = myArray.length; i < len; i++) {
+    arrayObjectIndexOf(myArray, searchTerm, property): number {
+        for (let i = 0, len = myArray.length; i < len; i++) {
             if (myArray[i][property] === searchTerm) return i;
         }
         return -1;
     }
 }
 
-export {VM};
+export { VM };

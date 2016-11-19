@@ -85,8 +85,8 @@
 	 */
 	"use strict";
 	var Lexer_1 = __webpack_require__(3);
-	var Parser_1 = __webpack_require__(5);
-	var Instruccion_1 = __webpack_require__(6);
+	var Parser_1 = __webpack_require__(6);
+	var Instruccion_1 = __webpack_require__(7);
 	var VM = (function () {
 	    function VM(programa) {
 	        var parser = new Parser_1.Parser(new Lexer_1.Lexer(programa));
@@ -95,8 +95,6 @@
 	        this.listaInstrucciones = parser.obtenerInstrucciones();
 	        this.tablaDeSimbolos = parser.obtenerTablaDeSimbolos();
 	        this.pilaNumeros = new Array;
-	        this.pilaCadenas = new Array;
-	        this.pilaValoresLogicos = new Array;
 	    }
 	    VM.prototype.run = function () {
 	        var n = this.listaInstrucciones.length;
@@ -216,36 +214,38 @@
 	                    break;
 	                case Instruccion_1.Instruccion.PUSH_VALOR_LOGICO:
 	                    ++i;
-	                    this.pilaValoresLogicos.push(this.listaInstrucciones[i]);
+	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
 	                    break;
 	                case Instruccion_1.Instruccion.PUSH_CADENA:
 	                    ++i;
-	                    this.pilaCadenas.push(this.listaInstrucciones[i]);
+	                    this.pilaNumeros.push(this.listaInstrucciones[i]);
 	                    break;
 	                case Instruccion_1.Instruccion.ASIGNACION:
 	                    ++i;
 	                    var index = Number(this.listaInstrucciones[i]);
 	                    if (this.pilaNumeros.length > 0) {
-	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        var numero1 = this.pilaNumeros.pop();
 	                        this.pilaNumeros.push(numero1);
-	                        if (numero1 % 1 === 0) {
-	                            this.tablaDeSimbolos[index].tipo = "entero";
-	                            this.tablaDeSimbolos[index].valor = " " + numero1;
+	                        if (typeof numero1 === "number") {
+	                            if (Number(numero1) % 1 === 0) {
+	                                this.tablaDeSimbolos[index].tipo = "entero";
+	                                this.tablaDeSimbolos[index].valor = " " + numero1;
+	                            }
+	                            else {
+	                                this.tablaDeSimbolos[index].tipo = "real";
+	                                this.tablaDeSimbolos[index].valor = " " + numero1;
+	                            }
 	                        }
-	                        else {
-	                            this.tablaDeSimbolos[index].tipo = "real";
-	                            this.tablaDeSimbolos[index].valor = " " + numero1;
+	                        else if (typeof numero1 === "string") {
+	                            var cadena = this.pilaNumeros.pop().toString();
+	                            this.tablaDeSimbolos[index].tipo = "cadena";
+	                            this.tablaDeSimbolos[index].valor = " " + cadena;
 	                        }
-	                    }
-	                    if (this.pilaValoresLogicos.length > 0) {
-	                        var valor = this.pilaValoresLogicos.pop().toString();
-	                        this.tablaDeSimbolos[index].tipo = "logico";
-	                        this.tablaDeSimbolos[index].valor = " " + valor;
-	                    }
-	                    if (this.pilaCadenas.length > 0) {
-	                        var cadena = this.pilaCadenas.pop().toString();
-	                        this.tablaDeSimbolos[index].tipo = "cadena";
-	                        this.tablaDeSimbolos[index].valor = " " + cadena;
+	                        else if (typeof numero1 === "boolean") {
+	                            var valor = this.pilaNumeros.pop().toString();
+	                            this.tablaDeSimbolos[index].tipo = "logico";
+	                            this.tablaDeSimbolos[index].valor = " " + valor;
+	                        }
 	                    }
 	                    console.log("\n" + this.tablaDeSimbolos[index].toString());
 	                    this.cadenaResultado += this.tablaDeSimbolos[index].toString() + "\n";
@@ -280,9 +280,14 @@
 	 */
 	"use strict";
 	var Token_1 = __webpack_require__(4);
+	var KeyWords_1 = __webpack_require__(5);
 	var Lexer = (function () {
 	    function Lexer(expresion) {
 	        this.establecer(expresion);
+	        this.palabrasReservadas = new KeyWords_1.KeyWords();
+	        this.palabrasReservadas.Add('if', Token_1.Token.IF);
+	        this.palabrasReservadas.Add('false', Token_1.Token.FALSE);
+	        this.palabrasReservadas.Add('true', Token_1.Token.TRUE);
 	    }
 	    Lexer.prototype.establecer = function (expresion) {
 	        this.expresion = "" + expresion;
@@ -377,31 +382,33 @@
 	                        return Token_1.Token.CADENA;
 	                    }
 	                //Palabras reservadas
-	                case 'f':
-	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
-	                        this.longitud++;
-	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
-	                            this.longitud++;
-	                            if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
-	                                return Token_1.Token.FOR;
-	                            }
-	                        }
-	                    }
-	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
-	                        this.longitud++;
-	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'l') {
-	                            this.longitud++;
-	                            if (this.expresion.charAt(this.posicion + this.longitud) == 's') {
-	                                this.longitud++;
-	                                if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
-	                                    this.longitud++;
-	                                    if ((this.expresion.charAt(this.posicion + this.longitud) == ';')) {
-	                                        return Token_1.Token.FALSE;
-	                                    }
-	                                }
-	                            }
-	                        }
-	                    }
+	                /*case 'f':
+	                      if (this.expresion.charAt(this.posicion + this.longitud) == 'o') {
+	                          this.longitud++;
+	                          if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
+	                              this.longitud++;
+	                              if ((this.expresion.charAt(this.posicion + this.longitud) == ' ' || this.expresion.charAt(this.posicion + this.longitud) == '')) {
+	                                  return Token.FOR;
+	                              }
+	                          }
+	                      }
+	                      if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
+	                          this.longitud++;
+	                          if ( this.expresion.charAt( this.posicion + this.longitud ) == 'l' ) {
+	                              this.longitud++;
+	                              if ( this.expresion.charAt( this.posicion + this.longitud ) == 's' ) {
+	                                  this.longitud++;
+	                                  if ( this.expresion.charAt( this.posicion + this.longitud ) == 'e' ) {
+	                                     // this.longitud++;
+	                                      //if ( (this.expresion.charAt( this.posicion + this.longitud ) == ';')) {
+	                                          return Token.FALSE;
+	                                      //}
+	                                  }
+	  
+	                              }
+	  
+	                          }
+	                      }
 	                /*case 'v':
 	                      if (this.expresion.charAt(this.posicion + this.longitud) == 'a') {
 	                          this.longitud++;
@@ -480,44 +487,45 @@
 	                              }
 	                          }
 	                      }
+	                      break;
+	                  case 't':
+	                      if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
+	                          this.longitud++;
+	                          if (this.expresion.charAt(this.posicion + this.longitud) == 'u') {
+	                              this.longitud++;
+	                              if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
+	                                  this.longitud++;
+	                                  if ((this.expresion.charAt(this.posicion + this.longitud) == ';')) {
+	                                      return Token.TRUE;
+	                                  }
+	  
+	                              }
+	                          }
+	                      }
+	                  //identificadores
+	  /*                case '@':
+	                      if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
+	  
+	                          while (this.posicion + this.longitud < n
+	                              && this.expresion.charAt(this.posicion
+	                                  + this.longitud) == "_") {
+	                              this.longitud++;
+	                          }
+	  
+	                          if (!this.isAlfabeto(this.expresion.charAt(this.posicion
+	                              + this.longitud))) {
+	                              this.longitud++;
+	                              return;
+	                          } else {
+	                              while (this.posicion + this.longitud < n && (this.isAlfabeto(this.expresion.charAt(this.posicion
+	                                  + this.longitud))) || this.isDigit(this.expresion.charAt(this.posicion
+	                                      + this.longitud))) {
+	                                  this.longitud++;
+	                              }
+	                              return Token.IDENTIFICADOR;
+	                          }
+	                      }
 	                      break;*/
-	                case 't':
-	                    if (this.expresion.charAt(this.posicion + this.longitud) == 'r') {
-	                        this.longitud++;
-	                        if (this.expresion.charAt(this.posicion + this.longitud) == 'u') {
-	                            this.longitud++;
-	                            if (this.expresion.charAt(this.posicion + this.longitud) == 'e') {
-	                                this.longitud++;
-	                                if ((this.expresion.charAt(this.posicion + this.longitud) == ';')) {
-	                                    return Token_1.Token.TRUE;
-	                                }
-	                            }
-	                        }
-	                    }
-	                //identificadores
-	                /*                case '@':
-	                                    if (this.expresion.charAt(this.posicion + this.longitud) == '_' || this.isAlfabeto(this.expresion.charAt(this.posicion + this.longitud))) {
-	                
-	                                        while (this.posicion + this.longitud < n
-	                                            && this.expresion.charAt(this.posicion
-	                                                + this.longitud) == "_") {
-	                                            this.longitud++;
-	                                        }
-	                
-	                                        if (!this.isAlfabeto(this.expresion.charAt(this.posicion
-	                                            + this.longitud))) {
-	                                            this.longitud++;
-	                                            return;
-	                                        } else {
-	                                            while (this.posicion + this.longitud < n && (this.isAlfabeto(this.expresion.charAt(this.posicion
-	                                                + this.longitud))) || this.isDigit(this.expresion.charAt(this.posicion
-	                                                    + this.longitud))) {
-	                                                this.longitud++;
-	                                            }
-	                                            return Token.IDENTIFICADOR;
-	                                        }
-	                                    }
-	                                    break;*/
 	                default:
 	                    if (this.isDigit(caracter)) {
 	                        while (this.posicion + this.longitud < n
@@ -544,7 +552,13 @@
 	                                + this.longitud)))) {
 	                            ++this.longitud;
 	                        }
-	                        return Token_1.Token.IDENTIFICADOR;
+	                        var cadena = this.obtenerValor();
+	                        if (!this.palabrasReservadas.ContainsKey(cadena)) {
+	                            return Token_1.Token.IDENTIFICADOR;
+	                        }
+	                        else {
+	                            return Number(this.palabrasReservadas.Item(cadena));
+	                        }
 	                    }
 	            }
 	        }
@@ -654,6 +668,58 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var KeyWords = (function () {
+	    function KeyWords() {
+	        this.items = {};
+	        this.count = 0;
+	    }
+	    KeyWords.prototype.ContainsKey = function (key) {
+	        return this.items.hasOwnProperty(key);
+	    };
+	    KeyWords.prototype.Count = function () {
+	        return this.count;
+	    };
+	    KeyWords.prototype.Add = function (key, value) {
+	        this.items[key] = value;
+	        this.count++;
+	    };
+	    KeyWords.prototype.Remove = function (key) {
+	        var val = this.items[key];
+	        delete this.items[key];
+	        this.count--;
+	        return val;
+	    };
+	    KeyWords.prototype.Item = function (key) {
+	        return this.items[key];
+	    };
+	    KeyWords.prototype.Keys = function () {
+	        var keySet = [];
+	        for (var prop in this.items) {
+	            if (this.items.hasOwnProperty(prop)) {
+	                keySet.push(prop);
+	            }
+	        }
+	        return keySet;
+	    };
+	    KeyWords.prototype.Values = function () {
+	        var values = [];
+	        for (var prop in this.items) {
+	            if (this.items.hasOwnProperty(prop)) {
+	                values.push(this.items[prop]);
+	            }
+	        }
+	        return values;
+	    };
+	    return KeyWords;
+	}());
+	exports.KeyWords = KeyWords;
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -661,8 +727,8 @@
 	 */
 	"use strict";
 	var Token_1 = __webpack_require__(4);
-	var Instruccion_1 = __webpack_require__(6);
-	var Variable_1 = __webpack_require__(7);
+	var Instruccion_1 = __webpack_require__(7);
+	var Variable_1 = __webpack_require__(8);
 	var Parser = (function () {
 	    function Parser(lexer) {
 	        this.lexer = lexer;
@@ -693,6 +759,14 @@
 	        }
 	    };
 	    Parser.prototype.termino = function () {
+	        this.factor();
+	        this.factorPrimo();
+	    };
+	    Parser.prototype.expresion = function () {
+	        this.termino();
+	        this.terminoPrimo();
+	    };
+	    Parser.prototype.factor = function () {
 	        if (this.lexer.match(Token_1.Token.VALOR_ENTERO)) {
 	            var entero = this.lexer.obtenerEntero();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO);
@@ -720,11 +794,22 @@
 	            this.listaInstrucciones.push(cadena);
 	            this.lexer.advance();
 	        }
-	        this.factorPrimo();
-	    };
-	    Parser.prototype.expresion = function () {
-	        this.termino();
-	        this.terminoPrimo();
+	        else if (this.lexer.match(Token_1.Token.FALSE)) {
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_VALOR_LOGICO);
+	            this.listaInstrucciones.push(false);
+	            this.lexer.advance();
+	        }
+	        else if (this.lexer.match(Token_1.Token.TRUE)) {
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_VALOR_LOGICO);
+	            this.listaInstrucciones.push(true);
+	            this.lexer.advance();
+	        }
+	        else if (this.lexer.match(Token_1.Token.CADENA)) {
+	            var cadena = this.lexer.obtenerValor();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_CADENA);
+	            this.listaInstrucciones.push(cadena);
+	            this.lexer.advance();
+	        }
 	    };
 	    Parser.prototype.terminoPrimo = function () {
 	        if (this.lexer.match(Token_1.Token.SUMA)) {
@@ -775,32 +860,8 @@
 	        this.lexer.advance();
 	        this.asignaciones();
 	        this.expresion();
-	        this.valoresLogicos();
-	        this.cadenas();
 	        this.listaInstrucciones.push(Instruccion_1.Instruccion.ASIGNACION);
 	        this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
-	    };
-	    Parser.prototype.valoresLogicos = function () {
-	        if (this.lexer.match(Token_1.Token.FALSE)) {
-	            var valorFalse = this.lexer.obtenerValor();
-	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_VALOR_LOGICO);
-	            this.listaInstrucciones.push(valorFalse);
-	            this.lexer.advance();
-	        }
-	        else if (this.lexer.match(Token_1.Token.TRUE)) {
-	            var valorTrue = this.lexer.obtenerValor();
-	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_VALOR_LOGICO);
-	            this.listaInstrucciones.push(valorTrue);
-	            this.lexer.advance();
-	        }
-	    };
-	    Parser.prototype.cadenas = function () {
-	        if (this.lexer.match(Token_1.Token.CADENA)) {
-	            var cadena = this.lexer.obtenerValor();
-	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_CADENA);
-	            this.listaInstrucciones.push(cadena);
-	            this.lexer.advance();
-	        }
 	    };
 	    Parser.prototype.obtenerInstrucciones = function () {
 	        return this.listaInstrucciones;
@@ -814,7 +875,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -867,7 +928,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
