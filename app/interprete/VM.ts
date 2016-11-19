@@ -53,15 +53,20 @@ class VM {
                     break;
                 case Instruccion.SUMA:
                     if (this.pilaNumeros.length > 1) {
+                        console.log(this.pilaNumeros);
                         let numero2: number = Number(this.pilaNumeros.pop());
                         let numero1: number = Number(this.pilaNumeros.pop());
-
-                        if ((Number(numero1) === numero1 && numero1 % 1 === 0)
-                            && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
-                            this.pilaNumeros.push(Math.floor(numero1)
-                                + Math.floor(numero2));
-                        } else {
-                            this.pilaNumeros.push(numero1 + numero2);
+                        debugger
+                        if (typeof numero1 == "string" || typeof numero2 == "string"){
+                            this.pilaNumeros.push( String(numero1) + String(numero2) )
+                        }else{
+                            if ((Number(numero1) === numero1 && numero1 % 1 === 0)
+                                && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
+                                this.pilaNumeros.push(Math.floor(numero1)
+                                    + Math.floor(numero2));
+                            } else {
+                                this.pilaNumeros.push(numero1 + numero2);
+                            }
                         }
                     } else {
                         throw new Error("Error: Falta operando.");
@@ -87,7 +92,6 @@ class VM {
                     if (this.pilaNumeros.length > 1) {
                         let numero2: number = Number(this.pilaNumeros.pop());
                         let numero1: number = Number(this.pilaNumeros.pop());
-
                         if ((Number(numero1) === numero1 && numero1 % 1 === 0)
                             && (Number(numero2) === numero2 && numero2 % 1 === 0)) {
                             this.pilaNumeros.push(Math.floor(numero1)
@@ -143,6 +147,7 @@ class VM {
                     this.pilaNumeros.push(this.listaInstrucciones[i]);
                     break;
                 case Instruccion.PUSH_CADENA:
+                debugger
                     ++i;
                     this.pilaNumeros.push(this.listaInstrucciones[i]);
                     break;
@@ -160,11 +165,11 @@ class VM {
                                 this.tablaDeSimbolos[index].tipo = "real";
                                 this.tablaDeSimbolos[index].valor = " " + numero1;
                             }
-                        }else if(typeof numero1 === "string"){
+                        } else if (typeof numero1 === "string") {
                             let cadena: string = this.pilaNumeros.pop().toString();
                             this.tablaDeSimbolos[index].tipo = "cadena";
                             this.tablaDeSimbolos[index].valor = " " + cadena;
-                        }else if(typeof numero1 === "boolean"){
+                        } else if (typeof numero1 === "boolean") {
                             let valor: string = this.pilaNumeros.pop().toString();
                             this.tablaDeSimbolos[index].tipo = "logico";
                             this.tablaDeSimbolos[index].valor = " " + valor;

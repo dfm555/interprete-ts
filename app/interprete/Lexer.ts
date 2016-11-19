@@ -16,7 +16,6 @@ class Lexer {
     constructor(expresion: string) {
         this.establecer(expresion);
         this.palabrasReservadas = new KeyWords<Token>();
-        this.palabrasReservadas.Add('if', Token.IF);
         this.palabrasReservadas.Add('false', Token.FALSE);
         this.palabrasReservadas.Add('true', Token.TRUE);
     }
@@ -302,7 +301,6 @@ class Lexer {
                         }else{
                             return  Number(this.palabrasReservadas.Item(cadena));
                         }
-
                     }
             }
         }

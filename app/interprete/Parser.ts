@@ -84,11 +84,20 @@ class Parser {
       this.listaInstrucciones.push(cadena);
       this.lexer.advance();
     } else if (this.lexer.match(Token.FALSE)) {
+
+      if(this.lexer.nextTokenIs(Token.ASIGNACION)){
+         alert("Error: false es una palabra reservada");
+         throw new Error("Error: Es una palabra reservada");
+      }
       this.listaInstrucciones.push(Instruccion.PUSH_VALOR_LOGICO);
       this.listaInstrucciones.push(false);
       this.lexer.advance();
 
     } else if (this.lexer.match(Token.TRUE)) {
+      if(this.lexer.nextTokenIs(Token.ASIGNACION)){
+        alert("Error: true es una palabra reservada");
+         throw new Error("Error: Es una palabra reservada");
+      }
       this.listaInstrucciones.push(Instruccion.PUSH_VALOR_LOGICO);
       this.listaInstrucciones.push(true);
       this.lexer.advance();
