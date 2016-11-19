@@ -14,66 +14,39 @@ class Parser {
   private listaInstrucciones: Array<Object>;
   private tablaDeSimbolos: Array<Variable>;
 
-  constructor( lexer: Lexer ) {
+  constructor(lexer: Lexer) {
     this.lexer = lexer;
     this.listaInstrucciones = new Array;
     this.tablaDeSimbolos = new Array;
   }
 
   declaraciones(): void {
-    while ( !this.lexer.match( Token.FIN_ARCHIVO ) ) {
+    while (!this.lexer.match(Token.FIN_ARCHIVO)) {
       this.asignaciones();
       this.expresiones();
     }
 
-    this.listaInstrucciones.push( Instruccion.FIN );
+    this.listaInstrucciones.push(Instruccion.FIN);
 
   }
 
   expresiones(): void {
     this.expresion();
-    if ( this.lexer.match( Token.COMA ) ) {
-      this.listaInstrucciones.push( Instruccion.PRINT );
+    if (this.lexer.match(Token.COMA)) {
+      this.listaInstrucciones.push(Instruccion.PRINT);
       this.lexer.advance();
       this.expresiones();
-    } else if ( this.lexer.match( Token.PUNTO_COMA ) ) {
-      this.listaInstrucciones.push( Instruccion.POP );
+    } else if (this.lexer.match(Token.PUNTO_COMA)) {
+      this.listaInstrucciones.push(Instruccion.POP);
       this.lexer.advance();
       this.expresiones();
     } else {
-      this.listaInstrucciones.push( Instruccion.PRINT );
+      this.listaInstrucciones.push(Instruccion.PRINT);
     }
   }
 
   termino(): void {
-    if ( this.lexer.match( Token.VALOR_ENTERO ) ) {
-
-      let entero: number = this.lexer.obtenerEntero();
-      this.listaInstrucciones.push( Instruccion.PUSH_NUMERO_ENTERO );
-      this.listaInstrucciones.push( entero );
-      this.lexer.advance();
-
-    } else if ( this.lexer.match( Token.VALOR_REAL ) ) {
-
-      let real: number = this.lexer.obtenerReal();
-      this.listaInstrucciones.push( Instruccion.PUSH_NUMERO_REAL );
-      this.listaInstrucciones.push( real );
-      this.lexer.advance();
-
-    } else if ( this.lexer.match( Token.ABRIR_PARENTESIS ) ) {
-      this.lexer.advance();
-      this.expresion();
-      if ( !this.lexer.match( Token.CERRAR_PARENTESIS ) ) {
-        console.log( "Error: Se esperaba )" );
-        return;
-      }
-      this.lexer.advance();
-    } else if ( this.lexer.match( Token.IDENTIFICADOR ) ) {
-      let cadena:string = this.lexer.obtenerValor();
-      this.listaInstrucciones.push(Instruccion.PUSH_IDENTIFICADOR);
-      this.listaInstrucciones.push(cadena);
-      this.lexer.advance();
-    }
+    this.factor();
     this.factorPrimo();
   }
 
@@ -82,43 +55,88 @@ class Parser {
     this.terminoPrimo();
   }
 
+  factor(): void {
+    if (this.lexer.match(Token.VALOR_ENTERO)) {
+
+      let entero: number = this.lexer.obtenerEntero();
+      this.listaInstrucciones.push(Instruccion.PUSH_NUMERO_ENTERO);
+      this.listaInstrucciones.push(entero);
+      this.lexer.advance();
+
+    } else if (this.lexer.match(Token.VALOR_REAL)) {
+
+      let real: number = this.lexer.obtenerReal();
+      this.listaInstrucciones.push(Instruccion.PUSH_NUMERO_REAL);
+      this.listaInstrucciones.push(real);
+      this.lexer.advance();
+
+    } else if (this.lexer.match(Token.ABRIR_PARENTESIS)) {
+      this.lexer.advance();
+      this.expresion();
+      if (!this.lexer.match(Token.CERRAR_PARENTESIS)) {
+        console.log("Error: Se esperaba )");
+        return;
+      }
+      this.lexer.advance();
+    } else if (this.lexer.match(Token.IDENTIFICADOR)) {
+      let cadena: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push(Instruccion.PUSH_IDENTIFICADOR);
+      this.listaInstrucciones.push(cadena);
+      this.lexer.advance();
+    } else if (this.lexer.match(Token.FALSE)) {
+      this.listaInstrucciones.push(Instruccion.PUSH_VALOR_LOGICO);
+      this.listaInstrucciones.push(false);
+      this.lexer.advance();
+
+    } else if (this.lexer.match(Token.TRUE)) {
+      this.listaInstrucciones.push(Instruccion.PUSH_VALOR_LOGICO);
+      this.listaInstrucciones.push(true);
+      this.lexer.advance();
+    } else if (this.lexer.match(Token.CADENA)) {
+      let cadena: string = this.lexer.obtenerValor();
+      this.listaInstrucciones.push(Instruccion.PUSH_CADENA);
+      this.listaInstrucciones.push(cadena);
+      this.lexer.advance();
+    }
+  }
+
   terminoPrimo(): void {
-    if ( this.lexer.match( Token.SUMA ) ) {
+    if (this.lexer.match(Token.SUMA)) {
       this.lexer.advance();
       this.termino();
-      this.listaInstrucciones.push( Instruccion.SUMA );
+      this.listaInstrucciones.push(Instruccion.SUMA);
       this.terminoPrimo();
     }
 
-    if ( this.lexer.match( Token.RESTA ) ) {
+    if (this.lexer.match(Token.RESTA)) {
       this.lexer.advance();
       this.termino();
-      this.listaInstrucciones.push( Instruccion.RESTA );
+      this.listaInstrucciones.push(Instruccion.RESTA);
       this.terminoPrimo();
     }
   }
 
   factorPrimo(): void {
-    if ( this.lexer.match( Token.MULTIPLICACION ) ) {
+    if (this.lexer.match(Token.MULTIPLICACION)) {
       this.lexer.advance();
       this.termino();
-      this.listaInstrucciones.push( Instruccion.MULTIPLICACION );
+      this.listaInstrucciones.push(Instruccion.MULTIPLICACION);
       this.factorPrimo();
     }
 
-    if ( this.lexer.match( Token.DIVISION ) ) {
+    if (this.lexer.match(Token.DIVISION)) {
       this.lexer.advance();
       this.termino();
-      this.listaInstrucciones.push( Instruccion.DIVISION );
+      this.listaInstrucciones.push(Instruccion.DIVISION);
       this.factorPrimo();
     }
   }
 
   asignaciones(): void {
-    if ( this.lexer.match( Token.IDENTIFICADOR ) && this.lexer.nextTokenIs( Token.ASIGNACION ) ) {
+    if (this.lexer.match(Token.IDENTIFICADOR) && this.lexer.nextTokenIs(Token.ASIGNACION)) {
       this.asignacion();
-      if ( !this.lexer.match( Token.PUNTO_COMA ) ) {
-        console.log( "Error: Se esperaba ; en la instrucción de asignación" );
+      if (!this.lexer.match(Token.PUNTO_COMA)) {
+        console.log("Error: Se esperaba ; en la instrucción de asignación");
         return;
       }
       this.lexer.advance();
@@ -130,9 +148,9 @@ class Parser {
 
     let cadena: string = this.lexer.obtenerValor();
 
-    let id: Variable = new Variable( cadena );
-    if ( !(id.contains( this.tablaDeSimbolos )) ) {
-      this.tablaDeSimbolos.push( id );
+    let id: Variable = new Variable(cadena);
+    if (!(id.contains(this.tablaDeSimbolos))) {
+      this.tablaDeSimbolos.push(id);
     }
 
     this.lexer.advance();
@@ -142,41 +160,10 @@ class Parser {
 
     this.expresion();
 
-    this.valoresLogicos();
-
-    this.cadenas();
-
-    this.listaInstrucciones.push( Instruccion.ASIGNACION );
-    this.listaInstrucciones.push( this.tablaDeSimbolos.indexOf( id ) );
+    this.listaInstrucciones.push(Instruccion.ASIGNACION);
+    this.listaInstrucciones.push(this.tablaDeSimbolos.indexOf(id));
 
   }
-
-  valoresLogicos():void{
-    if ( this.lexer.match( Token.FALSE ) ) {
-      let valorFalse: string = this.lexer.obtenerValor();
-      this.listaInstrucciones.push( Instruccion.PUSH_VALOR_LOGICO );
-      this.listaInstrucciones.push( valorFalse );
-      this.lexer.advance();
-
-    } else if ( this.lexer.match( Token.TRUE ) ) {
-
-      let valorTrue: string = this.lexer.obtenerValor();
-      this.listaInstrucciones.push( Instruccion.PUSH_VALOR_LOGICO );
-      this.listaInstrucciones.push( valorTrue );
-      this.lexer.advance();
-    }
-  }
-
-  cadenas():void{
-  if ( this.lexer.match( Token.CADENA ) ) {
-      let cadena: string = this.lexer.obtenerValor();
-      this.listaInstrucciones.push( Instruccion.PUSH_CADENA );
-      this.listaInstrucciones.push( cadena );
-      this.lexer.advance();
-    } 
-  }
-
-
 
   obtenerInstrucciones(): Array<Object> {
     return this.listaInstrucciones;
