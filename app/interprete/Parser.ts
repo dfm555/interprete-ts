@@ -104,7 +104,7 @@ class Parser {
     } else if (this.lexer.match(Token.CADENA)) {
       let cadena: string = this.lexer.obtenerValor();
       this.listaInstrucciones.push(Instruccion.PUSH_CADENA);
-      this.listaInstrucciones.push(cadena);
+      this.listaInstrucciones.push(cadena.split('"').join(""));
       this.lexer.advance();
     }
   }
