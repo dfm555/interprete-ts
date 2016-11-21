@@ -53,6 +53,7 @@ class Parser {
   expresion(): void {
     this.termino();
     this.terminoPrimo();
+    this.valorRelacional();
   }
 
   factor(): void {
@@ -139,6 +140,37 @@ class Parser {
       this.listaInstrucciones.push(Instruccion.DIVISION);
       this.factorPrimo();
     }
+  }
+
+  valorRelacional(): void{
+    if(this.lexer.match(Token.MENOR_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MENOR_QUE);
+      this.valorRelacional();
+    }
+
+    if(this.lexer.match(Token.MENOR_IGUAL_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MENOR_IGUAL_QUE);
+      this.valorRelacional();
+    }
+
+    if(this.lexer.match(Token.MAYOR_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MAYOR_QUE);
+      this.valorRelacional();
+    }
+
+    if(this.lexer.match(Token.MAYOR_IGUAL_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MAYOR_IGUAL_QUE);
+      this.valorRelacional();
+    }
+
   }
 
   asignaciones(): void {

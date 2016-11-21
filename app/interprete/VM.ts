@@ -126,6 +126,20 @@ class VM {
                         throw new Error("Error: Falta operando.");
                     }
                     break;
+                case Instruccion.MENOR_QUE:
+                    debugger
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
+                        if(numero1 < numero2){
+                            this.pilaNumeros.push(true)
+                        }else{
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
                 case Instruccion.PUSH_NUMERO_ENTERO:
                     ++i;
                     this.pilaNumeros.push(Number(this.listaInstrucciones[i]));
