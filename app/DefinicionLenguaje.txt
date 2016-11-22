@@ -19,15 +19,12 @@ factorPrimo= ( * | /) factor factorPrimo | epsilon
 terminoPrimo = (+ | -) termino terminoPrimo | epsilon
 factor = ENTERO | REAL | ID | "(" expresion ")"
 
-
-expresion = termino valorLogico
-termino = factor factorPrimo
-factorPrimo = ( * | /) factor factorPrimo | epsilon
-terminoPrimo = (+ | -) termino terminoPrimo | epsilon
-valorRelacional = (< | <= | > |  >=) terminoPrimo valorRelacional | epsilon
-valorComparacion = (<> | ==) valorRelacional  valorComparacion | epsilon
-valorLogico = (& | "||") valorComparacion valorLogico | epsilon
-factor = ENTERO | REAL | ID | LOGICOS | CADENAS |"(" expresion ")"
+comparacion = valorComp terminoLogico
+valorComp =  expresion terminoRelacional
+valorRelacional = expresion terminoComparacion
+terminoRelacional = (< | <= | > |  >=) valorComp terminoRelacional | epsilon
+terminoComparacion = ( != | == ) valorRelacional terminoComparacion | epsilon
+terminoLogico = (& | "|") valorComp teminoLogico | epsilon
 
 ****************************************************************************************************************************
 

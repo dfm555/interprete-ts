@@ -24,6 +24,7 @@ class Parser {
     while (!this.lexer.match(Token.FIN_ARCHIVO)) {
       this.asignaciones();
       this.expresiones();
+      this.comparacion();
     }
 
     this.listaInstrucciones.push(Instruccion.FIN);
@@ -43,6 +44,17 @@ class Parser {
     } else {
       this.listaInstrucciones.push(Instruccion.PRINT);
     }
+  }
+
+  comparacion():void{
+    debugger
+    this.valorComp();
+    this.terminoLogico();
+  }
+
+  valorComp():void{
+    this.expresion()
+    this.terminoRelacional();
   }
 
   termino(): void {
@@ -141,58 +153,72 @@ class Parser {
     }
   }
 
-  valorRelacional(): void{
+
+  terminoRelacional():void{
     if(this.lexer.match(Token.MENOR_QUE)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.MENOR_QUE);
-      this.valorRelacional();
+      this.terminoRelacional();
     }
 
     if(this.lexer.match(Token.MENOR_IGUAL_QUE)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.MENOR_IGUAL_QUE);
-      this.valorRelacional();
+      this.terminoRelacional();
     }
 
     if(this.lexer.match(Token.MAYOR_QUE)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.MAYOR_QUE);
-      this.valorRelacional();
+      this.terminoRelacional();
     }
 
     if(this.lexer.match(Token.MAYOR_IGUAL_QUE)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.MAYOR_IGUAL_QUE);
-      this.valorRelacional();
+      this.terminoRelacional();
     }
+  }
+
+  valorRelacional(): void{
+    this.expresion();
+    this.terminoRelacional();
 
   }
 
-  valorComparacion():void{
+  terminoComparacion():void{
     if(this.lexer.match(Token.DIFERENTE)){
       this.lexer.advance();
+      this.valorRelacional();
       this.listaInstrucciones.push(Instruccion.DIFERENTE);
-      this.valorComparacion();
+      this.terminoComparacion();
     }
 
     if(this.lexer.match(Token.IGUAL_QUE)){
       this.lexer.advance();
+      this.valorRelacional();
       this.listaInstrucciones.push(Instruccion.IGUAL);
-      this.valorComparacion();
+      this.terminoComparacion();
     }
   }
 
-  valorLogico():void{
+  terminoLogico():void{
     if(this.lexer.match(Token.Y_LOGICO)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.Y_LOGICO);
-      this.valorLogico();
+      this.terminoLogico();
     }
 
     if(this.lexer.match(Token.O_LOGICO)){
       this.lexer.advance();
+      this.valorComp();
       this.listaInstrucciones.push(Instruccion.O_LOGICO);
-      this.valorLogico();
+      this.terminoLogico();
     }
   }
 

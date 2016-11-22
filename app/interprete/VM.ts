@@ -40,6 +40,7 @@ class VM {
                     if (this.pilaNumeros.length > 0) {
 
                         let ans: number = Number(this.pilaNumeros.pop());
+                        this.pilaNumeros.push(ans);
                         if (Math.floor(ans) == ans) {
                             this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
                         } else {
@@ -161,7 +162,7 @@ class VM {
                     }else if(tipo == 'entero' || tipo == 'real'){
                         valor = Number(valor);
                     }
-                    this.pilaNumeros.push(valor);
+                    //this.pilaNumeros.push(valor);
                     break;
                 case Instruccion.PUSH_VALOR_LOGICO:
                     ++i;
