@@ -25,6 +25,7 @@ class VM {
     }
 
     run(): void {
+        
         let n: number = this.listaInstrucciones.length;
         let i: number = 0;
 
@@ -127,7 +128,7 @@ class VM {
                     }
                     break;
                 case Instruccion.MENOR_QUE:
-                    debugger
+                    
                     if (this.pilaNumeros.length > 1) {
                         let numero2: number = Number(this.pilaNumeros.pop());
                         let numero1: number = Number(this.pilaNumeros.pop());

@@ -53,7 +53,6 @@ class Parser {
   expresion(): void {
     this.termino();
     this.terminoPrimo();
-    this.valorRelacional();
   }
 
   factor(): void {
@@ -129,14 +128,14 @@ class Parser {
   factorPrimo(): void {
     if (this.lexer.match(Token.MULTIPLICACION)) {
       this.lexer.advance();
-      this.termino();
+      this.factor();
       this.listaInstrucciones.push(Instruccion.MULTIPLICACION);
       this.factorPrimo();
     }
 
     if (this.lexer.match(Token.DIVISION)) {
       this.lexer.advance();
-      this.termino();
+      this.factor();
       this.listaInstrucciones.push(Instruccion.DIVISION);
       this.factorPrimo();
     }
@@ -145,32 +144,56 @@ class Parser {
   valorRelacional(): void{
     if(this.lexer.match(Token.MENOR_QUE)){
       this.lexer.advance();
-      this.expresion();
       this.listaInstrucciones.push(Instruccion.MENOR_QUE);
       this.valorRelacional();
     }
 
     if(this.lexer.match(Token.MENOR_IGUAL_QUE)){
       this.lexer.advance();
-      this.expresion();
       this.listaInstrucciones.push(Instruccion.MENOR_IGUAL_QUE);
       this.valorRelacional();
     }
 
     if(this.lexer.match(Token.MAYOR_QUE)){
       this.lexer.advance();
-      this.expresion();
       this.listaInstrucciones.push(Instruccion.MAYOR_QUE);
       this.valorRelacional();
     }
 
     if(this.lexer.match(Token.MAYOR_IGUAL_QUE)){
       this.lexer.advance();
-      this.expresion();
       this.listaInstrucciones.push(Instruccion.MAYOR_IGUAL_QUE);
       this.valorRelacional();
     }
 
+  }
+
+  valorComparacion():void{
+    if(this.lexer.match(Token.DIFERENTE)){
+      this.lexer.advance();
+      this.listaInstrucciones.push(Instruccion.DIFERENTE);
+      this.valorComparacion();
+    }
+
+    if(this.lexer.match(Token.IGUAL_QUE)){
+      this.lexer.advance();
+      this.listaInstrucciones.push(Instruccion.IGUAL);
+      this.valorComparacion();
+    }
+  }
+
+  valorLogico():void{
+    if(this.lexer.match(Token.Y_LOGICO)){
+      this.lexer.advance();
+      this.listaInstrucciones.push(Instruccion.Y_LOGICO);
+      this.valorLogico();
+    }
+
+    if(this.lexer.match(Token.O_LOGICO)){
+      this.lexer.advance();
+      this.listaInstrucciones.push(Instruccion.O_LOGICO);
+      this.valorLogico();
+    }
   }
 
   asignaciones(): void {

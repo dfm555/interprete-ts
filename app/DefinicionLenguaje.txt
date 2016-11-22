@@ -9,21 +9,25 @@ ENTERO = digito+
 NUMERO = ("+" | "-")? ENTERO ("." ENTERO)? (("E" | "e") ("+" | "-")? ENTERO))?
 
 IDENTIFICADOR = letra (letra | digito | _ )*
-	
-COMENTARIO = # ( ~ "\n")*
-
 
 ########################################     Reglas gramaticales    ######################################################
 
 ****************************************************************************************************************************
-expresion = termino terminoPrimo valorRelacional valorComparacion valorLogico
-termino = ("!" | epsilon ) factor factorPrimo
+expresion = termino terminoPrimo
+termino = factor factorPrimo
+factorPrimo= ( * | /) factor factorPrimo | epsilon
+terminoPrimo = (+ | -) termino terminoPrimo | epsilon
+factor = ENTERO | REAL | ID | "(" expresion ")"
+
+
+expresion = termino valorLogico
+termino = factor factorPrimo
 factorPrimo = ( * | /) factor factorPrimo | epsilon
 terminoPrimo = (+ | -) termino terminoPrimo | epsilon
-valorRelacional = (< | <= | > |  >=) expresion valorRelacional | epsilon
-varlorComparacion = (<> | ==) factor valorComparacion | epsilon
-valorLogico = (& | "||") factor valorLogico | epsilon
-factor = ENTERO | REAL | ID | LOGICOS | CADENAS' |"(" expresion ")"
+valorRelacional = (< | <= | > |  >=) terminoPrimo valorRelacional | epsilon
+valorComparacion = (<> | ==) valorRelacional  valorComparacion | epsilon
+valorLogico = (& | "||") valorComparacion valorLogico | epsilon
+factor = ENTERO | REAL | ID | LOGICOS | CADENAS |"(" expresion ")"
 
 ****************************************************************************************************************************
 
