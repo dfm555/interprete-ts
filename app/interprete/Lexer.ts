@@ -172,14 +172,8 @@ class Lexer {
     public nextTokenIs(token:number): boolean {
         let auxiliarPosicion:number = this.posicion;
         let auxiliarLongitud = this.longitud;
-        let auxiliarToken = this.nuevoToken;
 
-        this.advance();
-        let ans = this.match(token);
-
-        if(!ans){
-            this.nuevoToken = auxiliarToken;
-        }
+        let ans = this.getToken() == token;
         
         this.posicion = auxiliarPosicion;
         this.longitud = auxiliarLongitud;

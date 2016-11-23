@@ -45,6 +45,7 @@ class Parser {
     }
   }
 
+
   termino(): void {
     this.factor();
     this.factorPrimo();
@@ -53,9 +54,20 @@ class Parser {
   expresion(): void {
     this.termino();
     this.terminoPrimo();
+    this.terminoRelacional();
+    this.terminoComparacion();
+    this.terminoLogico();
   }
 
   factor(): void {
+
+    if(this.lexer.match(Token.NO_LOGICO)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.NO_LOGICO);
+      this.terminoRelacional();
+    }
+
     if (this.lexer.match(Token.VALOR_ENTERO)) {
 
       let entero: number = this.lexer.obtenerEntero();
@@ -128,16 +140,80 @@ class Parser {
   factorPrimo(): void {
     if (this.lexer.match(Token.MULTIPLICACION)) {
       this.lexer.advance();
-      this.termino();
+      this.factor();
       this.listaInstrucciones.push(Instruccion.MULTIPLICACION);
       this.factorPrimo();
     }
 
     if (this.lexer.match(Token.DIVISION)) {
       this.lexer.advance();
-      this.termino();
+      this.factor();
       this.listaInstrucciones.push(Instruccion.DIVISION);
       this.factorPrimo();
+    }
+  }
+
+
+  terminoRelacional():void{
+
+    if(this.lexer.match(Token.MENOR_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MENOR_QUE);
+      this.terminoRelacional();
+    }
+
+    if(this.lexer.match(Token.MENOR_IGUAL_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MENOR_IGUAL_QUE);
+      this.terminoRelacional();
+    }
+
+    if(this.lexer.match(Token.MAYOR_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MAYOR_QUE);
+      this.terminoRelacional();
+    }
+
+    if(this.lexer.match(Token.MAYOR_IGUAL_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.MAYOR_IGUAL_QUE);
+      this.terminoRelacional();
+    }
+  }
+
+  terminoComparacion():void{
+    if(this.lexer.match(Token.DIFERENTE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.DIFERENTE);
+      this.terminoComparacion();
+    }
+
+    if(this.lexer.match(Token.IGUAL_QUE)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.IGUAL);
+      this.terminoComparacion();
+    }
+  }
+
+  terminoLogico():void{
+    if(this.lexer.match(Token.Y_LOGICO)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.Y_LOGICO);
+      this.terminoLogico();
+    }
+
+    if(this.lexer.match(Token.O_LOGICO)){
+      this.lexer.advance();
+      this.expresion();
+      this.listaInstrucciones.push(Instruccion.O_LOGICO);
+      this.terminoLogico();
     }
   }
 
