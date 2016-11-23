@@ -203,6 +203,140 @@
 	                        throw new Error("Error: Falta operando.");
 	                    }
 	                    break;
+	                case Instruccion_1.Instruccion.MENOR_QUE:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        if (numero1 < numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.MENOR_IGUAL_QUE:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        if (numero1 <= numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.MAYOR_QUE:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        if (numero1 > numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.MAYOR_IGUAL_QUE:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = Number(this.pilaNumeros.pop());
+	                        var numero1 = Number(this.pilaNumeros.pop());
+	                        if (numero1 >= numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.DIFERENTE:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1 != numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.IGUAL:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1 == numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.O_LOGICO:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1 || numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.Y_LOGICO:
+	                    if (this.pilaNumeros.length > 1) {
+	                        var numero2 = this.pilaNumeros.pop();
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1 && numero2) {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
+	                case Instruccion_1.Instruccion.NO_LOGICO:
+	                    if (this.pilaNumeros.length > 0) {
+	                        var numero1 = this.pilaNumeros.pop();
+	                        if (numero1) {
+	                            this.pilaNumeros.push(false);
+	                        }
+	                        else {
+	                            this.pilaNumeros.push(true);
+	                        }
+	                    }
+	                    else {
+	                        throw new Error("Error: Falta operando.");
+	                    }
+	                    break;
 	                case Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO:
 	                    ++i;
 	                    this.pilaNumeros.push(Number(this.listaInstrucciones[i]));
@@ -231,7 +365,6 @@
 	                    break;
 	                case Instruccion_1.Instruccion.PUSH_CADENA:
 	                    ++i;
-	                    console.log('push cadena', this.listaInstrucciones[i]);
 	                    this.pilaNumeros.push(String(this.listaInstrucciones[i]));
 	                    break;
 	                case Instruccion_1.Instruccion.ASIGNACION:
@@ -256,7 +389,7 @@
 	                        }
 	                        else if (typeof numero1 === "boolean") {
 	                            this.tablaDeSimbolos[index].tipo = "logico";
-	                            this.tablaDeSimbolos[index].valor = String(numero1);
+	                            this.tablaDeSimbolos[index].valor = numero1;
 	                        }
 	                    }
 	                    this.cadenaResultado += this.tablaDeSimbolos[index].toString() + "\n";
@@ -438,12 +571,7 @@
 	    Lexer.prototype.nextTokenIs = function (token) {
 	        var auxiliarPosicion = this.posicion;
 	        var auxiliarLongitud = this.longitud;
-	        var auxiliarToken = this.nuevoToken;
-	        this.advance();
-	        var ans = this.match(token);
-	        if (!ans) {
-	            this.nuevoToken = auxiliarToken;
-	        }
+	        var ans = this.getToken() == token;
 	        this.posicion = auxiliarPosicion;
 	        this.longitud = auxiliarLongitud;
 	        return ans;
@@ -631,8 +759,17 @@
 	    Parser.prototype.expresion = function () {
 	        this.termino();
 	        this.terminoPrimo();
+	        this.terminoRelacional();
+	        this.terminoComparacion();
+	        this.terminoLogico();
 	    };
 	    Parser.prototype.factor = function () {
+	        if (this.lexer.match(Token_1.Token.NO_LOGICO)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.NO_LOGICO);
+	            this.terminoRelacional();
+	        }
 	        if (this.lexer.match(Token_1.Token.VALOR_ENTERO)) {
 	            var entero = this.lexer.obtenerEntero();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.PUSH_NUMERO_ENTERO);
@@ -702,15 +839,69 @@
 	    Parser.prototype.factorPrimo = function () {
 	        if (this.lexer.match(Token_1.Token.MULTIPLICACION)) {
 	            this.lexer.advance();
-	            this.termino();
+	            this.factor();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MULTIPLICACION);
 	            this.factorPrimo();
 	        }
 	        if (this.lexer.match(Token_1.Token.DIVISION)) {
 	            this.lexer.advance();
-	            this.termino();
+	            this.factor();
 	            this.listaInstrucciones.push(Instruccion_1.Instruccion.DIVISION);
 	            this.factorPrimo();
+	        }
+	    };
+	    Parser.prototype.terminoRelacional = function () {
+	        if (this.lexer.match(Token_1.Token.MENOR_QUE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MENOR_QUE);
+	            this.terminoRelacional();
+	        }
+	        if (this.lexer.match(Token_1.Token.MENOR_IGUAL_QUE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MENOR_IGUAL_QUE);
+	            this.terminoRelacional();
+	        }
+	        if (this.lexer.match(Token_1.Token.MAYOR_QUE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MAYOR_QUE);
+	            this.terminoRelacional();
+	        }
+	        if (this.lexer.match(Token_1.Token.MAYOR_IGUAL_QUE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.MAYOR_IGUAL_QUE);
+	            this.terminoRelacional();
+	        }
+	    };
+	    Parser.prototype.terminoComparacion = function () {
+	        if (this.lexer.match(Token_1.Token.DIFERENTE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.DIFERENTE);
+	            this.terminoComparacion();
+	        }
+	        if (this.lexer.match(Token_1.Token.IGUAL_QUE)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.IGUAL);
+	            this.terminoComparacion();
+	        }
+	    };
+	    Parser.prototype.terminoLogico = function () {
+	        if (this.lexer.match(Token_1.Token.Y_LOGICO)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.Y_LOGICO);
+	            this.terminoLogico();
+	        }
+	        if (this.lexer.match(Token_1.Token.O_LOGICO)) {
+	            this.lexer.advance();
+	            this.expresion();
+	            this.listaInstrucciones.push(Instruccion_1.Instruccion.O_LOGICO);
+	            this.terminoLogico();
 	        }
 	    };
 	    Parser.prototype.asignaciones = function () {

@@ -1,0 +1,38 @@
+########################################     Expresiones regulares    ######################################################
+
+Expresiones regulares derivadas de un subconjunto de los caracteres ASCII
+
+digito =  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = [0-9]
+letra = [a-zA-Z] //No incluye letras con virgulillas, tildes, dieresis
+
+ENTERO = digito+
+NUMERO = ("+" | "-")? ENTERO ("." ENTERO)? (("E" | "e") ("+" | "-")? ENTERO))?
+
+IDENTIFICADOR = letra (letra | digito | _ )*
+
+########################################     Reglas gramaticales    ######################################################
+
+****************************************************************************************************************************
+expresion = termino terminoPrimo terminoRelacional terminoComparacion terminoLogico
+termino = factor factorPrimo
+factorPrimo= ( * | /) factor factorPrimo | epsilon
+terminoPrimo = (+ | -) termino terminoPrimo | epsilon
+terminoRelacional = (< | <= | > |  >=) expresion terminoRelacional | epsilon
+terminoComparacion = ( != | == ) expresion terminoComparacion | epsilon
+terminoLogico = (& | "|") expresion teminoLogico | epsilon
+factor = ( ! | epsilon ) ENTERO | REAL | ID | LOGICOS | CADENAS' |"(" expresion ")"
+
+****************************************************************************************************************************
+
+expresiones = expresion (; | ,) expresiones | expresion |epsilon
+
+**************************************************************************************************************************
+
+asignacion = ID "=" expresion
+asignaciones = asignacion ; asignaciones | epsilon
+
+****************************************************************************************************************************
+
+
+
+
