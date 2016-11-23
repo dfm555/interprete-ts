@@ -1,7 +1,7 @@
 class Variable {
     nombre:string;
     tipo:string;
-    valor:string;
+    valor:any;
 
     constructor(nombre:string){
         this.nombre = nombre;

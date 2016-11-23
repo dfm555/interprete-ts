@@ -2,10 +2,10 @@
  * Created by duber on 10/11/16.
  */
 
-import { Lexer } from './Lexer';
-import { Parser } from './Parser';
-import { Instruccion } from './Instruccion';
-import { Variable } from './Variable';
+import {Lexer} from './Lexer';
+import {Parser} from './Parser';
+import {Instruccion} from './Instruccion';
+import {Variable} from './Variable';
 
 
 class VM {
@@ -25,7 +25,7 @@ class VM {
     }
 
     run(): void {
-        
+
         let n: number = this.listaInstrucciones.length;
         let i: number = 0;
 
@@ -40,7 +40,6 @@ class VM {
                     if (this.pilaNumeros.length > 0) {
 
                         let ans: number = Number(this.pilaNumeros.pop());
-                        this.pilaNumeros.push(ans);
                         if (Math.floor(ans) == ans) {
                             this.cadenaResultado += "ans = " + Math.floor(ans) + "\n";
                         } else {
@@ -57,9 +56,9 @@ class VM {
                     if (this.pilaNumeros.length > 1) {
                         let numero2: Object = this.pilaNumeros.pop();
                         let numero1: Object = this.pilaNumeros.pop();
-                        if (typeof numero1 == "string" || typeof numero2 == "string"){
-                            this.pilaNumeros.push( String(numero1) + String(numero2) )
-                        }else{
+                        if (typeof numero1 == "string" || typeof numero2 == "string") {
+                            this.pilaNumeros.push(String(numero1) + String(numero2))
+                        } else {
                             if ((Number(numero1) % 1 === 0)
                                 && (Number(numero2) % 1 === 0)) {
                                 this.pilaNumeros.push(Math.floor(Number(numero1))
@@ -129,14 +128,129 @@ class VM {
                     }
                     break;
                 case Instruccion.MENOR_QUE:
-                    
+
                     if (this.pilaNumeros.length > 1) {
                         let numero2: number = Number(this.pilaNumeros.pop());
                         let numero1: number = Number(this.pilaNumeros.pop());
-                        if(numero1 < numero2){
+                        if (numero1 < numero2) {
                             this.pilaNumeros.push(true)
-                        }else{
+                        } else {
                             this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+
+                case Instruccion.MENOR_IGUAL_QUE:
+
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
+                        if (numero1 <= numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+
+                case Instruccion.MAYOR_QUE:
+
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
+                        if (numero1 > numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.MAYOR_IGUAL_QUE:
+
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: number = Number(this.pilaNumeros.pop());
+                        let numero1: number = Number(this.pilaNumeros.pop());
+                        if (numero1 >= numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.DIFERENTE:
+
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: any = this.pilaNumeros.pop();
+                        let numero1: any = this.pilaNumeros.pop();
+
+                        if (numero1 != numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.IGUAL:
+
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: any = this.pilaNumeros.pop();
+                        let numero1: any = this.pilaNumeros.pop();
+
+                        if (numero1 == numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.O_LOGICO:
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: any = this.pilaNumeros.pop();
+                        let numero1: any = this.pilaNumeros.pop();
+
+                        if (numero1 || numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.Y_LOGICO:
+                    if (this.pilaNumeros.length > 1) {
+                        let numero2: any = this.pilaNumeros.pop();
+                        let numero1: any = this.pilaNumeros.pop();
+
+                        if (numero1 && numero2) {
+                            this.pilaNumeros.push(true)
+                        } else {
+                            this.pilaNumeros.push(false);
+                        }
+                    } else {
+                        throw new Error("Error: Falta operando.");
+                    }
+                    break;
+                case Instruccion.NO_LOGICO:
+                    if (this.pilaNumeros.length > 0) {
+                        let numero1: any = this.pilaNumeros.pop();
+
+                        if (numero1) {
+                            this.pilaNumeros.push(false)
+                        } else {
+                            this.pilaNumeros.push(true);
                         }
                     } else {
                         throw new Error("Error: Falta operando.");
@@ -154,15 +268,15 @@ class VM {
                     ++i;
                     let variable: string = this.listaInstrucciones[i].toString();
                     let varIndex: number = this.arrayObjectIndexOf(this.tablaDeSimbolos, variable, "nombre");
-                    let tipo:string = this.tablaDeSimbolos[varIndex].tipo;
-                    let valor:any = this.tablaDeSimbolos[varIndex].valor;
+                    let tipo: string = this.tablaDeSimbolos[varIndex].tipo;
+                    let valor: any = this.tablaDeSimbolos[varIndex].valor;
 
-                    if(tipo == 'logico'){
+                    if (tipo == 'logico') {
                         valor = Boolean(valor);
-                    }else if(tipo == 'entero' || tipo == 'real'){
+                    } else if (tipo == 'entero' || tipo == 'real') {
                         valor = Number(valor);
                     }
-                    //this.pilaNumeros.push(valor);
+                    this.pilaNumeros.push(valor);
                     break;
                 case Instruccion.PUSH_VALOR_LOGICO:
                     ++i;
@@ -170,7 +284,6 @@ class VM {
                     break;
                 case Instruccion.PUSH_CADENA:
                     ++i;
-                    console.log('push cadena',this.listaInstrucciones[i]);
                     this.pilaNumeros.push(String(this.listaInstrucciones[i]));
                     break;
                 case Instruccion.ASIGNACION:
@@ -189,10 +302,10 @@ class VM {
                             }
                         } else if (typeof numero1 === "string") {
                             this.tablaDeSimbolos[index].tipo = "cadena";
-                            this.tablaDeSimbolos[index].valor = ""+numero1;
+                            this.tablaDeSimbolos[index].valor = "" + numero1;
                         } else if (typeof numero1 === "boolean") {
                             this.tablaDeSimbolos[index].tipo = "logico";
-                            this.tablaDeSimbolos[index].valor = String(numero1);
+                            this.tablaDeSimbolos[index].valor = numero1;
                         }
 
 
@@ -220,4 +333,4 @@ class VM {
     }
 }
 
-export { VM };
+export {VM};

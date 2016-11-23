@@ -13,18 +13,14 @@ IDENTIFICADOR = letra (letra | digito | _ )*
 ########################################     Reglas gramaticales    ######################################################
 
 ****************************************************************************************************************************
-expresion = termino terminoPrimo
+expresion = termino terminoPrimo terminoRelacional terminoComparacion terminoLogico
 termino = factor factorPrimo
 factorPrimo= ( * | /) factor factorPrimo | epsilon
 terminoPrimo = (+ | -) termino terminoPrimo | epsilon
-factor = ENTERO | REAL | ID | "(" expresion ")"
-
-comparacion = valorComp terminoLogico
-valorComp =  expresion terminoRelacional
-valorRelacional = expresion terminoComparacion
-terminoRelacional = (< | <= | > |  >=) valorComp terminoRelacional | epsilon
-terminoComparacion = ( != | == ) valorRelacional terminoComparacion | epsilon
-terminoLogico = (& | "|") valorComp teminoLogico | epsilon
+terminoRelacional = (< | <= | > |  >=) expresion terminoRelacional | epsilon
+terminoComparacion = ( != | == ) expresion terminoComparacion | epsilon
+terminoLogico = (& | "|") expresion teminoLogico | epsilon
+factor = ( ! | epsilon ) ENTERO | REAL | ID | LOGICOS | CADENAS' |"(" expresion ")"
 
 ****************************************************************************************************************************
 
